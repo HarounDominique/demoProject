@@ -15,6 +15,9 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+
+		<!-- Especifica la ubicación del directorio de datos de PostgreSQL -->
+		<postgres.data.dir>C:\Program Files\PostgreSQL\16\data\</postgres.data.dir>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -75,6 +78,14 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.codehaus.mojo/exec-maven-plugin -->
+		<dependency>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>exec-maven-plugin</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
@@ -113,5 +124,38 @@
 			</releases>
 		</pluginRepository>
 	</pluginRepositories>
+
+	<profiles>
+		<profile>
+			<id>run_database</id>
+			<build>
+				<plugins>
+					<!-- Plugin para arancar el servidor de PostgreSQL -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>3.3.0</version>
+						<executions>
+							<execution>
+								<id>start-postgres</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>pg_ctl</executable>
+									<arguments>
+										<argument>start</argument>
+										<argument>-D</argument>
+										<argument>${postgres.data.dir}</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
