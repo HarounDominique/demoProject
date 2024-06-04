@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haroun.server.mapper.ProvinciaMapper">
+
+    <resultMap id="ProvinciaResultMap" type="com.haroun.server.model.Provincia">
+        <id property="id" column="id" />
+        <result property="nombre" column="nombre" />
+        <collection property="localidades" ofType="com.haroun.server.model.Localidad" column="id" select="com.haroun.server.mapper.LocalidadMapper.selectByProvinciaId"/>
+    </resultMap>
+
+    <select id="selectAllProvincias" resultMap="ProvinciaResultMap">
+        SELECT * FROM provincias
+    </select>
+
+</mapper>
