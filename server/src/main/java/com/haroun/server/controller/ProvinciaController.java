@@ -1,7 +1,10 @@
 package com.haroun.server.controller;
 
+import com.haroun.server.model.Localidad;
 import com.haroun.server.model.Provincia;
+import com.haroun.server.service.LocalidadService;
 import com.haroun.server.service.ProvinciaService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +16,8 @@ public class ProvinciaController {
 
     @Autowired
     private ProvinciaService provinciasService;
+    @Autowired
+    private LocalidadService localidadService;
 
     @GetMapping
     public List<Provincia> getAllProvincias() {
@@ -33,4 +38,21 @@ public class ProvinciaController {
     public void deleteProvincia(@PathVariable int id) {
         provinciasService.deleteProvincia(id);
     }
+/*
+    @DeleteMapping("/{id}/localidades")
+    public void deleteLocalidadesByProvincia(@PathVariable int id) {
+        Provincia p = provinciasService.getProvinciaById(id);
+        List<Localidad> localidades = p.getLocalidades();
+        for (Localidad localidad : localidades) {
+            localidadService.deleteLocalidad(localidad.getId());
+        }
+    }
+ */
+
+    @DeleteMapping("/{id}/localidades")
+    public void deleteLocalidadesByProvincia(@PathVariable int id) {
+        localidadService.deleteLocalidadesByProvincia(id);
+    }
+
+
 }

@@ -6,6 +6,7 @@ import com.haroun.server.repository.ILocalidadRepository;
 import com.haroun.server.repository.IProvinciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public class LocalidadService {
 
     @Autowired
     private ILocalidadRepository localidadRepository;
+    @Autowired
+    private IProvinciaRepository provinciaRepository;
 
     public List<Localidad> getAllLocalidades(){
         return localidadRepository.findAll();
@@ -29,5 +32,13 @@ public class LocalidadService {
 
     public void deleteLocalidad(int id) {
         localidadRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteLocalidadesByProvincia(int provinciaId) {
+        Provincia provincia = provinciaRepository.findById(provinciaId).orElse(null);
+        if (provincia != null) {
+            localidadRepository.deleteByProvincia(provincia);
+        }
     }
 }
