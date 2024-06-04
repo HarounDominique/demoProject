@@ -3,6 +3,7 @@ package com.haroun.server.service;
 import com.haroun.server.model.Localidad;
 import com.haroun.server.model.Provincia;
 import com.haroun.server.repository.ILocalidadRepository;
+import com.haroun.server.repository.IProvinciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
