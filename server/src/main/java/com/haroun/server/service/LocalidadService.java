@@ -41,4 +41,16 @@ public class LocalidadService {
             localidadRepository.deleteByProvincia(provincia);
         }
     }
+
+    public boolean updateLocalidad(int id, Localidad localidad) {
+        Localidad l = localidadRepository.findById(id).orElse(null);
+        if (l != null) {
+            l.setNombre(localidad.getNombre());
+            l.setProvincia(localidad.getProvincia());
+            localidadRepository.save(l);
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

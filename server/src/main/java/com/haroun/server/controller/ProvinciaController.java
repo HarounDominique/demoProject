@@ -54,5 +54,8 @@ public class ProvinciaController {
         localidadService.deleteLocalidadesByProvincia(id);
     }
 
-
+    @PutMapping
+    public Provincia updateProvincia(@RequestBody Provincia provincia) {
+        return null;
+    }
 }
