@@ -17,9 +17,12 @@ public class LocalidadController {
 
     @Autowired
     private LocalidadService localidadService;
-
+/*
     @Autowired
     private IProvinciaRepository provinciaRepository;
+
+ */
+    IProvinciaRepository provinciaRepository;
 
     @GetMapping
     public List<Localidad> getAllLocalidades(){
@@ -31,9 +34,9 @@ public class LocalidadController {
         return localidadService.getLocalidadById(id);
     }
 
-    @PostMapping
-    public Localidad createLocalidad(@RequestBody Localidad localidad){
-        return localidadService.saveLocalidad(localidad);
+    @PostMapping("/{id}")
+    public Localidad createLocalidad(@PathVariable int id, @RequestBody Localidad localidad){
+        return localidadService.saveLocalidad(id, localidad);
     }
 
     @DeleteMapping("/{id}")
@@ -45,7 +48,7 @@ public class LocalidadController {
     public Provincia getProvincia(@PathVariable int id){
         Localidad l = localidadService.getLocalidadById(id);
         Provincia p = l.getProvincia();
-        return provinciaRepository.findById(p.getId()).orElse(null);
+        return provinciaRepository.findById(p.getId());
     }
 
     @PutMapping("/{id}")

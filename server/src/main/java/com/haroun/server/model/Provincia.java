@@ -17,7 +17,7 @@ public class Provincia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    public Integer id;
 
     public String nombre;
 

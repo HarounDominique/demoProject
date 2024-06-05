@@ -4,8 +4,9 @@ import com.haroun.server.model.Localidad;
 import com.haroun.server.model.Provincia;
 import com.haroun.server.service.LocalidadService;
 import com.haroun.server.service.ProvinciaService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,8 +55,17 @@ public class ProvinciaController {
         localidadService.deleteLocalidadesByProvincia(id);
     }
 
-    @PutMapping
-    public Provincia updateProvincia(@RequestBody Provincia provincia) {
-        return null;
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateProvincia(@PathVariable int id, @RequestBody Provincia provincia) {
+        try{
+            boolean isUpdated = provinciasService.updateProvincia(id, provincia);
+            if (isUpdated) {
+                return new ResponseEntity<>("Provincia actualizada correctamente", HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>("Provincia no actualizada", HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e) {
+            return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
