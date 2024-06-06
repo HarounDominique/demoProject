@@ -11,8 +11,13 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  // Ejemplo de método GET
-  getData(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/provincias`);
+  // Ejemplo de método GET -> Provincias
+  getProvinciasData(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/provincias/localidades`);
+  }
+
+  // Ejemplo de método GET -> Localidades
+  getLocalidadesData(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/localidades`);
   }
 }

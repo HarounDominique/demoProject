@@ -1,6 +1,12 @@
 <!--IMPORTANTE: 'id' Y 'nombre' SE CORRESPONDEN CON LOS CAMPOS DE LA TABLA PROVINCIAS EN BASE DE DATOS, EL NOMBRE DEBE COINCIDIR EXACTAMENTE-->
 <dx-data-grid
-  [dataSource] = "data"
+  [dataSource] = "dataProvincias"
+  [columns]="['id', 'nombre', 'localidades']">
+
+</dx-data-grid>
+
+<dx-data-grid
+  [dataSource] = "dataLocalidades"
   [columns]="['id', 'nombre']">
 
 </dx-data-grid>

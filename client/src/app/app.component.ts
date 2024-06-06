@@ -12,18 +12,33 @@ export class AppComponent implements OnInit{
 
   title = 'client';
 
-  protected data: any;
+  protected dataProvincias: any;
+
+  protected dataLocalidades: any;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    this.getData();
+    this.getDataProvincias();
+
+    this.getLocalidadesData();
   }
 
-  private getData() {
-    this.dataService.getData().subscribe(
+  private getDataProvincias() {
+    this.dataService.getProvinciasData().subscribe(
       (response)=>{
-        this.data=response;
+        this.dataProvincias=response;
+      },
+      (error)=>{
+        console.log("Error fetching data: ",error);
+      }
+    )
+  }
+
+  private getLocalidadesData() {
+    this.dataService.getLocalidadesData().subscribe(
+      (response)=>{
+        this.dataLocalidades=response;
       },
       (error)=>{
         console.log("Error fetching data: ",error);
