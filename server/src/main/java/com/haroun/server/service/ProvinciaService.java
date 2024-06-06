@@ -27,6 +27,14 @@ public class ProvinciaService {
         return provinciaMyBatisRepository.findAll();
     }
 
+    public List<Provincia> getAllProvinciasWithLocalidades(){
+        return provinciaRepository.findAll();
+    }
+
+    public Provincia findProvinciaNameById(int id) {
+        return provinciaMyBatisRepository.findProvinciaNameById(id);
+    }
+
     public Provincia getProvinciaById(int id) {
         return provinciaRepository.findById(id).orElse(null);
     }

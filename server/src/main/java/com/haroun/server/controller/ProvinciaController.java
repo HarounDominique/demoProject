@@ -20,12 +20,24 @@ public class ProvinciaController {
     @Autowired
     private LocalidadService localidadService;
 
+
+
     @GetMapping
     public List<Provincia> getAllProvincias() {
         return provinciasService.getAllProvincias();
     }
 
+    @GetMapping("/localidades")
+    public List<Provincia> getAllProvinciasWithLocalidades() {
+        return provinciasService.getAllProvinciasWithLocalidades();
+    }
+
     @GetMapping("/{id}")
+    public Provincia findProvinciaNameById(@PathVariable int id) {
+        return provinciasService.findProvinciaNameById(id);
+    }
+
+    @GetMapping("/{id}/localidades")
     public Provincia getProvinciaById(@PathVariable int id) {
         return provinciasService.getProvinciaById(id);
     }

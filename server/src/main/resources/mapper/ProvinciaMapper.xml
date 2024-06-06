@@ -12,6 +12,10 @@
         SELECT * FROM "provincias"
     </select>
 
+    <select id="findProvinciaNameById" resultMap="ProvinciaResultMap">
+        SELECT nombre, id FROM "provincias" WHERE id = #{id}
+    </select>
+
     <!--select id="findById" resultMap="ProvinciaResultMap">
         SELECT * FROM provincias WHERE id = #{id}
     </select>

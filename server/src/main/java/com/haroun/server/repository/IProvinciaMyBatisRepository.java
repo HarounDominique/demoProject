@@ -10,6 +10,8 @@ import java.util.List;
 public interface IProvinciaMyBatisRepository {
 
     List<Provincia> findAll();
+
+    Provincia findProvinciaNameById(int id);
 /*
     Provincia findById(int id);
 
