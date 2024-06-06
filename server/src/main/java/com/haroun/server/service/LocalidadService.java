@@ -3,6 +3,7 @@ package com.haroun.server.service;
 import com.haroun.server.model.Localidad;
 import com.haroun.server.model.Provincia;
 import com.haroun.server.repository.ILocalidadRepository;
+import com.haroun.server.repository.IProvinciaMyBatisRepository;
 import com.haroun.server.repository.IProvinciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,16 +17,16 @@ public class LocalidadService {
 
     @Autowired
     private ILocalidadRepository localidadRepository;
-    /*
+
     @Autowired
     private IProvinciaRepository provinciaRepository;
-    */
 
-    //inyección de dependencias manual haciendo una instancia del repositorio de Provincia y parándolo por parámetro al constructor de la clase actual (LocalidadService)
-    private final IProvinciaRepository provinciaRepository;
+
+    //inyección de dependencias (MyBatis) manual haciendo una instancia del repositorio de Provincia y parándolo por parámetro al constructor de la clase actual (LocalidadService)
+    private final IProvinciaMyBatisRepository provinciaMyBatisRepository;
     @Autowired
-    public LocalidadService(IProvinciaRepository provinciaRepository) {
-        this.provinciaRepository = provinciaRepository;
+    public LocalidadService(IProvinciaMyBatisRepository provinciaMyBatisRepository) {
+        this.provinciaMyBatisRepository = provinciaMyBatisRepository;
     }
 
     public List<Localidad> getAllLocalidades(){
@@ -34,6 +35,15 @@ public class LocalidadService {
 
     public Localidad getLocalidadById(int id) {
         return localidadRepository.findById(id).orElse(null);
+    }
+
+    public Provincia getProvinciaByLocalidadId(int id) {
+        Localidad l = localidadRepository.findById(id).orElse(null);
+        if(l != null) {
+            Provincia p = provinciaMyBatisRepository.findProvinciaNameById(l.getProvincia().getId());
+            return p;
+        }
+        return null;
     }
 
     public Localidad saveLocalidad(int id, Localidad localidad) {

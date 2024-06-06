@@ -4,6 +4,7 @@ import com.haroun.server.model.Localidad;
 import com.haroun.server.model.Provincia;
 import com.haroun.server.repository.IProvinciaRepository;
 import com.haroun.server.service.LocalidadService;
+import com.haroun.server.service.ProvinciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +18,11 @@ public class LocalidadController {
 
     @Autowired
     private LocalidadService localidadService;
-/*
+
     @Autowired
     private IProvinciaRepository provinciaRepository;
-
- */
-    IProvinciaRepository provinciaRepository;
+    @Autowired
+    private ProvinciaService provinciaService;
 
     @GetMapping
     public List<Localidad> getAllLocalidades(){
@@ -34,21 +34,14 @@ public class LocalidadController {
         return localidadService.getLocalidadById(id);
     }
 
+    @GetMapping("/{id}/provincia")
+    public Provincia getProvincia(@PathVariable int id){
+        return localidadService.getProvinciaByLocalidadId(id);
+    }
+
     @PostMapping("/{id}")
     public Localidad createLocalidad(@PathVariable int id, @RequestBody Localidad localidad){
         return localidadService.saveLocalidad(id, localidad);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteLocalidad(@PathVariable int id){
-        localidadService.deleteLocalidad(id);
-    }
-
-    @GetMapping("/{id}/provincia")
-    public Provincia getProvincia(@PathVariable int id){
-        Localidad l = localidadService.getLocalidadById(id);
-        Provincia p = l.getProvincia();
-        return provinciaRepository.findById(p.getId()).orElse(null);
     }
 
     @PutMapping("/{id}")
@@ -64,4 +57,10 @@ public class LocalidadController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteLocalidad(@PathVariable int id){
+        localidadService.deleteLocalidad(id);
+    }
+
 }
