@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import {DevExtremeModule, DxDataGridModule} from "devextreme-angular";
+import {HttpClientModule} from "@angular/common/http";
+import {DataService} from "./data/data.service";
 
 
 @NgModule({
@@ -15,9 +17,10 @@ import {DevExtremeModule, DxDataGridModule} from "devextreme-angular";
     BrowserModule,
     AppRoutingModule,
     DxDataGridModule,
-    DevExtremeModule
+    DevExtremeModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

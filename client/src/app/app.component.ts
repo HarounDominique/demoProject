@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {DataService} from "./data/data.service";
 
 
 @Component({
@@ -6,11 +8,26 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
+
   title = 'client';
-  protected readonly data = [
-    {id:1, name:"John", age:30},
-    {id:2, name:"Jack", age:20},
-    {id:3, name:"Anne", age:40}
-  ];
+
+  protected data: any;
+
+  constructor(private dataService: DataService) { }
+
+  ngOnInit(): void {
+    this.getData();
+  }
+
+  private getData() {
+    this.dataService.getData().subscribe(
+      (response)=>{
+        this.data=response;
+      },
+      (error)=>{
+        console.log("Error fetching data: ",error);
+      }
+    )
+  }
 }
