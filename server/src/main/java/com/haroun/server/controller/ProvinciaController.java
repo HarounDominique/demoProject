@@ -57,14 +57,14 @@ public class ProvinciaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateProvincia(@PathVariable int id, @RequestBody Provincia provincia) {
-        try{
-            boolean isUpdated = provinciasService.updateProvincia(id, provincia);
-            if (isUpdated) {
+        try {
+            Provincia updatedProvincia = provinciasService.updateProvincia(id, provincia);
+            if (updatedProvincia != null) {
                 return new ResponseEntity<>("Provincia actualizada correctamente", HttpStatus.OK);
-            }else{
-                return new ResponseEntity<>("Provincia no actualizada", HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity<>("Provincia no encontrada", HttpStatus.NOT_FOUND);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

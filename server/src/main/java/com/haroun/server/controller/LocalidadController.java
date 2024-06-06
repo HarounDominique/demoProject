@@ -48,7 +48,7 @@ public class LocalidadController {
     public Provincia getProvincia(@PathVariable int id){
         Localidad l = localidadService.getLocalidadById(id);
         Provincia p = l.getProvincia();
-        return provinciaRepository.findById(p.getId());
+        return provinciaRepository.findById(p.getId()).orElse(null);
     }
 
     @PutMapping("/{id}")

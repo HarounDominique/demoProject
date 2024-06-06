@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.haroun.server.repository.IProvinciaRepository">
+<mapper namespace="com.haroun.server.repository.IProvinciaMyBatisRepository">
 
     <resultMap id="ProvinciaResultMap" type="com.haroun.server.model.Provincia">
         <id property="id" column="id" />
@@ -12,7 +12,7 @@
         SELECT * FROM "provincias"
     </select>
 
-    <select id="findById" resultMap="ProvinciaResultMap">
+    <!--select id="findById" resultMap="ProvinciaResultMap">
         SELECT * FROM provincias WHERE id = #{id}
     </select>
 
@@ -39,6 +39,6 @@
         SELECT p.*, l.* FROM provincias p
         JOIN localidades l ON p.id = l.provincia_id
         WHERE p.id = #{id}
-    </select>
+    </select-->
 
 </mapper>

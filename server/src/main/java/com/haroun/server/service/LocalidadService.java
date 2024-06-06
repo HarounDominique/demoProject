@@ -19,7 +19,7 @@ public class LocalidadService {
     /*
     @Autowired
     private IProvinciaRepository provinciaRepository;
-     */
+    */
 
     //inyección de dependencias manual haciendo una instancia del repositorio de Provincia y parándolo por parámetro al constructor de la clase actual (LocalidadService)
     private final IProvinciaRepository provinciaRepository;
@@ -37,7 +37,7 @@ public class LocalidadService {
     }
 
     public Localidad saveLocalidad(int id, Localidad localidad) {
-        Provincia p = provinciaRepository.findById(id);
+        Provincia p = provinciaRepository.findById(id).orElse(null);
         if(p != null) {
             localidad.setProvincia(p);
             if(p.getLocalidades() == null) {
@@ -56,7 +56,7 @@ public class LocalidadService {
 
     @Transactional
     public void deleteLocalidadesByProvincia(int provinciaId) {
-        Provincia provincia = provinciaRepository.findById(provinciaId);
+        Provincia provincia = provinciaRepository.findById(provinciaId).orElse(null);
         if (provincia != null) {
             localidadRepository.deleteByProvincia(provincia);
         }
