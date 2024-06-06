@@ -1,6 +1,5 @@
 package com.haroun.server.controller;
 
-import com.haroun.server.model.Localidad;
 import com.haroun.server.model.Provincia;
 import com.haroun.server.service.LocalidadService;
 import com.haroun.server.service.ProvinciaService;
@@ -51,16 +50,6 @@ public class ProvinciaController {
     public void deleteProvincia(@PathVariable int id) {
         provinciasService.deleteProvincia(id);
     }
-/*
-    @DeleteMapping("/{id}/localidades")
-    public void deleteLocalidadesByProvincia(@PathVariable int id) {
-        Provincia p = provinciasService.getProvinciaById(id);
-        List<Localidad> localidades = p.getLocalidades();
-        for (Localidad localidad : localidades) {
-            localidadService.deleteLocalidad(localidad.getId());
-        }
-    }
- */
 
     @DeleteMapping("/{id}/localidades")
     public void deleteLocalidadesByProvincia(@PathVariable int id) {

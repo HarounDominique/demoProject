@@ -63,4 +63,6 @@ public class LocalidadController {
         localidadService.deleteLocalidad(id);
     }
 
+
+
 }
