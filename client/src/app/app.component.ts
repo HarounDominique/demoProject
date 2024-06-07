@@ -1,6 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {DataService} from "./data/data.service";
+import { ProvinciaService } from './state/provincia/provincia.service';
+import { ProvinciaQuery } from './state/provincia/provincia.query';
+import { LocalidadService } from './state/localidad/localidad.service';
+import { LocalidadQuery } from './state/localidad/localidad.query';
+import { Observable } from 'rxjs';
+import { Provincia } from './state/provincia/provincia.model';
+import { Localidad } from './state/localidad/localidad.model';
 
 
 @Component({
@@ -12,18 +18,37 @@ export class AppComponent implements OnInit{
 
   title = 'client';
 
-  protected dataProvincias: any;
+  dataProvincias$: Observable<Provincia[]> | undefined;
 
-  protected dataLocalidades: any;
+  dataLocalidades$: Observable<Localidad[]> | undefined;
 
-  constructor(private dataService: DataService) { }
+  //dataProvincias: any;
+
+  //dataLocalidades: any;
+
+  constructor(
+    private dataService: DataService,
+    private provinciaService: ProvinciaService,
+    private provinciaQuery: ProvinciaQuery,
+    private localidadService: LocalidadService,
+    private localidadQuery: LocalidadQuery
+  ) {}
 
   ngOnInit(): void {
-    this.getDataProvincias();
+    //this.getDataProvincias();
 
-    this.getLocalidadesData();
+    //this.getLocalidadesData();
+
+    this.loadData();
+    this.dataProvincias$ = this.provinciaQuery.selectAll();
+    this.dataLocalidades$ = this.localidadQuery.selectAll();
   }
 
+  loadData() {
+    this.provinciaService.loadProvincias().subscribe();
+    this.localidadService.loadLocalidades().subscribe();
+  }
+/*
   private getDataProvincias() {
     this.dataService.getProvinciasData().subscribe(
       (response)=>{
@@ -45,4 +70,6 @@ export class AppComponent implements OnInit{
       }
     )
   }
+
+ */
 }
