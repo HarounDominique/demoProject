@@ -83,4 +83,15 @@ public class LocalidadService {
             return false;
         }
     }
+
+    public List<Localidad> getLocalidadesByProvinciaId(int id) {
+        Provincia p = provinciaRepository.findById(id).orElse(null);
+        if(p != null) {
+            List<Localidad> l;
+            l =  p.getLocalidades();
+            return l;
+        }else{
+            return null;
+        }
+    }
 }

@@ -1,19 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {DataService} from "./data/data.service";
 import { ProvinciaService } from './state/provincia/provincia.service';
 import { ProvinciaQuery } from './state/provincia/provincia.query';
 import { LocalidadService } from './state/localidad/localidad.service';
 import { LocalidadQuery } from './state/localidad/localidad.query';
-import { Observable } from 'rxjs';
+import {catchError, Observable, of} from 'rxjs';
 import { Provincia } from './state/provincia/provincia.model';
 import { Localidad } from './state/localidad/localidad.model';
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
   title = 'client';
 
@@ -21,26 +21,19 @@ export class AppComponent implements OnInit{
 
   dataLocalidades$: Observable<Localidad[]> | undefined;
 
-  //dataProvincias: any;
-
-  //dataLocalidades: any;
-
   constructor(
     //private dataService: DataService,
     private provinciaService: ProvinciaService,
     private provinciaQuery: ProvinciaQuery,
     private localidadService: LocalidadService,
     private localidadQuery: LocalidadQuery
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
-    //this.getDataProvincias();
-
-    //this.getLocalidadesData();
-
     this.loadData();
     this.dataProvincias$ = this.provinciaQuery.selectAll();
-    this.dataLocalidades$ = this.localidadQuery.selectAll();
+    this.dataLocalidades$ = of([]);
   }
 
   loadData() {
@@ -49,9 +42,26 @@ export class AppComponent implements OnInit{
   }
 
   onProvinciaClick(e: any): void {
-    const provinciaId = e.row.data.id;
-    // Aquí podrías filtrar las localidades por la provincia seleccionada
+    const rowData = e.data;
+    if (rowData) {
+      const provinciaId = rowData.id;
+      this.dataLocalidades$ = this.localidadService.getLocalidadesByProvincia(provinciaId).pipe(
+        tap(localidades => {
+          console.log('Localidades cargadas:', localidades); // Verificar las localidades cargadas
+        }),
+        catchError(error => {
+          console.error('Error loading localidades:', error);
+          return of([]);
+        })
+      );
+    } else {
+      console.error('Invalid event object:', e);
+    }
+    //console.log(rowData.id);
   }
+}
+
+
 /*
   private getDataProvincias() {
     this.dataService.getProvinciasData().subscribe(
@@ -74,6 +84,6 @@ export class AppComponent implements OnInit{
       }
     )
   }
-
- */
 }
+ */
+

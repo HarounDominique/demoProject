@@ -31,23 +31,22 @@
 </dx-box-->
 
 <dx-box direction="row" width="100%" height="100%">
-  <dxi-item [baseSize]="50" ratio=1>
+  <dxi-item [baseSize]="50" ratio="1">
     <dx-data-grid
-      [dataSource] = "dataProvincias$ | async"
-      [columns]="['id', 'nombre']">
-
+      [dataSource]="dataProvincias$ | async"
+      [columns]="['id', 'nombre']"
+      (onRowClick)="onProvinciaClick($event)">
     </dx-data-grid>
-
-
   </dxi-item>
-  <dxi-item [baseSize]="50" ratio=1>
-    <dx-data-grid
-      [dataSource] = "dataLocalidades$ | async"
-      [columns]="['id', 'nombre']">
 
+  <dxi-item [baseSize]="50" ratio="1">
+    <dx-data-grid
+      [dataSource]="dataLocalidades$ | async"
+      [columns]="['id', 'nombre']">
     </dx-data-grid>
   </dxi-item>
 </dx-box>
+
 
 
 

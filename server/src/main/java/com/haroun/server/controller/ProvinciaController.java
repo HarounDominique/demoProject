@@ -1,5 +1,6 @@
 package com.haroun.server.controller;
 
+import com.haroun.server.model.Localidad;
 import com.haroun.server.model.Provincia;
 import com.haroun.server.service.LocalidadService;
 import com.haroun.server.service.ProvinciaService;
@@ -35,10 +36,16 @@ public class ProvinciaController {
     public Provincia findProvinciaNameById(@PathVariable int id) {
         return provinciasService.findProvinciaNameById(id);
     }
-
+/* EL MÉTODO EN SÍ NO ESTÁ MAL, PERO NO LE VEO DEMASIADO SENTIDO AL HECHO DE QUE ME DEVUELVA LA PROVINCIA CUANDO LO RELEVANTE ES SÓLO EL ARRAY DE LOCALIDADES
     @GetMapping("/{id}/localidades")
     public Provincia getProvinciaById(@PathVariable int id) {
         return provinciasService.getProvinciaById(id);
+    }
+*/
+    @GetMapping("/{id}/localidades")
+    public List<Localidad> getLocalidadesByProvinciaId(@PathVariable int id) {
+        //return provinciasService.getProvinciaById(id);
+        return localidadService.getLocalidadesByProvinciaId(id);
     }
 
     @PostMapping
