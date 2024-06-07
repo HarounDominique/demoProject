@@ -1,4 +1,4 @@
-<!--IMPORTANTE: 'id' Y 'nombre' SE CORRESPONDEN CON LOS CAMPOS DE LA TABLA PROVINCIAS EN BASE DE DATOS, EL NOMBRE DEBE COINCIDIR EXACTAMENTE-->
+<!--IMPORTANTE: 'id' Y 'nombre' SE CORRESPONDEN CON LOS CAMPOS DE LA TABLA PROVINCIAS EN BASE DE DATOS, EL NOMBRE DEBE COINCIDIR EXACTAMENTE>
 <dx-data-grid
   [dataSource] = "dataProvincias$ | async"
   [columns]="['id', 'nombre']"
@@ -12,4 +12,42 @@
 
 </dx-data-grid>
 
-<router-outlet />
+<router-outlet /-->
+
+<!--dx-box direction="row" width="100%" height="100%">
+  <dxi-item [baseSize]="50" ratio="1">
+    <dx-data-grid
+      [dataSource]="dataProvincias$ | async"
+      [columns]="['id', 'name']"
+      (onRowClick)="onProvinciaClick($event)">
+    </dx-data-grid>
+  </dxi-item>
+  <dxi-item [baseSize]="50" ratio="1">
+    <dx-data-grid
+      [dataSource]="dataLocalidades$ | async"
+      [columns]="['id', 'name']">
+    </dx-data-grid>
+  </dxi-item>
+</dx-box-->
+
+<dx-box direction="row" width="100%" height="100%">
+  <dxi-item [baseSize]="50" ratio=1>
+    <dx-data-grid
+      [dataSource] = "dataProvincias$ | async"
+      [columns]="['id', 'nombre']">
+
+    </dx-data-grid>
+
+
+  </dxi-item>
+  <dxi-item [baseSize]="50" ratio=1>
+    <dx-data-grid
+      [dataSource] = "dataLocalidades$ | async"
+      [columns]="['id', 'nombre']">
+
+    </dx-data-grid>
+  </dxi-item>
+</dx-box>
+
+
+

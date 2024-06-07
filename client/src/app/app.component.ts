@@ -8,11 +8,10 @@ import { Observable } from 'rxjs';
 import { Provincia } from './state/provincia/provincia.model';
 import { Localidad } from './state/localidad/localidad.model';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
 
@@ -27,7 +26,7 @@ export class AppComponent implements OnInit{
   //dataLocalidades: any;
 
   constructor(
-    private dataService: DataService,
+    //private dataService: DataService,
     private provinciaService: ProvinciaService,
     private provinciaQuery: ProvinciaQuery,
     private localidadService: LocalidadService,
@@ -47,6 +46,11 @@ export class AppComponent implements OnInit{
   loadData() {
     this.provinciaService.loadProvincias().subscribe();
     this.localidadService.loadLocalidades().subscribe();
+  }
+
+  onProvinciaClick(e: any): void {
+    const provinciaId = e.row.data.id;
+    // Aquí podrías filtrar las localidades por la provincia seleccionada
   }
 /*
   private getDataProvincias() {

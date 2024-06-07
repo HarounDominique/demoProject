@@ -5,7 +5,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import {DevExtremeModule, DxDataGridModule} from "devextreme-angular";
+import {DevExtremeModule, DxDataGridModule, DxBoxModule } from "devextreme-angular";
 import {DataService} from "./data/data.service";
 import { ProvinciaService } from './state/provincia/provincia.service';
 import { LocalidadService } from './state/localidad/localidad.service';
@@ -16,6 +16,7 @@ import { LocalidadService } from './state/localidad/localidad.service';
     AppComponent
   ],
   imports: [
+    DxBoxModule,
     BrowserModule,
     AppRoutingModule,
     DxDataGridModule,
