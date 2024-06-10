@@ -7,6 +7,8 @@ import {Observable} from "rxjs";
 })
 export class DataService {
 
+  //EL ACCESO AL BACKEND SE GESTIONA AHORA DESDE LA IMPLEMENTACIÓN DE AKITA
+
   private apiUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) { }

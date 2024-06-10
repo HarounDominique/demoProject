@@ -7,4 +7,6 @@ export class ProvinciaQuery extends QueryEntity<ProvinciaState> {
   constructor(protected override store: ProvinciaStore) {
     super(store);
   }
+
+
 }

@@ -18,7 +18,7 @@ export class LocalidadService{
   }
 
   loadLocalidades(): Observable<Localidad[]> {
-    return this.http.get<Localidad[]>('http://localhost:8080/localidades').pipe(
+    return this.http.get<Localidad[]>(`${this.apiUrl}/localidades`).pipe(
       tap(localidades => {
         this.localidadStore.set(localidades);
       })
@@ -26,7 +26,7 @@ export class LocalidadService{
   }
 
   getLocalidadesByProvincia(provinciaId: string): Observable<Localidad[]> {
-    return this.http.get<Localidad[]>(`http://localhost:8080/provincias/${provinciaId}/localidades`).pipe(
+    return this.http.get<Localidad[]>(`${this.apiUrl}/provincias/${provinciaId}/localidades`).pipe(
       tap(localidades => {
         this.localidadStore.set(localidades);
       }),

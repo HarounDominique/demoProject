@@ -1,12 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProvinciaService } from './state/provincia/provincia.service';
 import { ProvinciaQuery } from './state/provincia/provincia.query';
 import { LocalidadService } from './state/localidad/localidad.service';
 import { LocalidadQuery } from './state/localidad/localidad.query';
-import {catchError, Observable, of} from 'rxjs';
+import {catchError, Observable, of, pipe} from 'rxjs';
 import { Provincia } from './state/provincia/provincia.model';
 import { Localidad } from './state/localidad/localidad.model';
-import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
@@ -21,14 +20,20 @@ export class AppComponent implements OnInit {
 
   dataLocalidades$: Observable<Localidad[]> | undefined;
 
+  dataProvincia$: Observable<string> | undefined;
+
+  selectedProvinciaId: number | null = null;
+
+  selectedProvinciaName: string | null = null;
+
+  popupVisible: boolean = false;
+
   constructor(
-    //private dataService: DataService,
     private provinciaService: ProvinciaService,
     private provinciaQuery: ProvinciaQuery,
     private localidadService: LocalidadService,
     private localidadQuery: LocalidadQuery
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -45,22 +50,40 @@ export class AppComponent implements OnInit {
     const rowData = e.data;
     if (rowData) {
       const provinciaId = rowData.id;
+      this.selectedProvinciaId = provinciaId;
       this.dataLocalidades$ = this.localidadService.getLocalidadesByProvincia(provinciaId).pipe(
-        tap(localidades => {
-          console.log('Localidades cargadas:', localidades); // Verificar las localidades cargadas
-        }),
         catchError(error => {
-          console.error('Error loading localidades:', error);
+          console.error('Error loading localidades:', error, ".");
           return of([]);
         })
       );
     } else {
-      console.error('Invalid event object:', e);
+      console.error('Invalid event object:', e, ".");
     }
-    //console.log(rowData.id);
   }
-}
 
+  onRowDblClick(event: any) {
+    this.popupVisible = true;
+    if(this.selectedProvinciaId !== null) {
+      this.dataProvincia$ = this.provinciaService.selectProvinciaNameById(this.selectedProvinciaId);
+      this.provinciaService.selectProvinciaNameById(this.selectedProvinciaId).subscribe(
+        name => {
+          this.selectedProvinciaName = name;
+        },
+        error => {
+          console.error("Error retrieving provincia name:", error);
+        }
+      );
+    } else {
+      console.error("The id of provincia is null.");
+    }
+  }
+
+  hidePopup() {
+    this.popupVisible = false;
+  }
+
+}
 
 /*
   private getDataProvincias() {

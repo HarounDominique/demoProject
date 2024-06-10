@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {ProvinciaStore} from "./provincia.store";
-import { Observable } from 'rxjs';
+import {map, Observable} from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {Provincia} from "./provincia.model";
 
@@ -19,6 +19,12 @@ export class ProvinciaService{
       tap(provincias => {
         this.provinciaStore.set(provincias);
       })
+    );
+  }
+
+  selectProvinciaNameById(provinciaId: number | null): Observable<string> {
+    return this.http.get<Provincia>('http://localhost:8080/provincias/' + provinciaId).pipe(
+      map(provincia => provincia.nombre)
     );
   }
 }
