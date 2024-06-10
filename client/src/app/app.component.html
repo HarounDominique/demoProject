@@ -33,40 +33,80 @@
 <dx-box direction="row" width="100%" height="100%">
   <dxi-item [baseSize]="50" ratio="1">
     <h3>PROVINCIAS</h3>
-    <div style="max-height: calc(100vh - 40px); overflow-y: auto;">
+    <div style="max-height: calc(99vh - 40px); overflow-y: auto;">
 
       <dx-data-grid
         [dataSource]="dataProvincias$ | async"
         [columns]="['id', 'nombre']"
         [paging]="{ enabled: false }"
         (onRowClick)="onProvinciaClick($event)"
-        (onRowDblClick)="onRowDblClick($event)">
+        (onRowDblClick)="onProvinciaRowDblClick($event)">
         <dxo-selection mode="single"></dxo-selection>
       </dx-data-grid>
 
       <dx-popup
-        [visible]="popupVisible"
-        title="Popup Title"
+        [visible]="provinciaPopupVisible"
+        title="Información de la provincia"
+        [height]="285"
+        [width]="500"
         (onHiding)="hidePopup()">
-        <div>{{selectedProvinciaName}}</div>
-        <!--dxi-item-- [baseSize]="50" ratio="1">
-          <h3>LOCALIDADES</h3>
-          <dx-data-grid
-            [dataSource]="dataProvincia$ | async"
-            [columns]="['nombre']">
-          </dx-data-grid>
-        </dxi-item-->
+        <table class="table table-striped table-bordered mt-3">
+          <tbody>
+          <tr>
+            <td>Nombre de la provincia</td>
+            <td>{{selectedProvinciaName}}</td>
+          </tr>
+          <tr>
+            <td>Id de la provincia</td>
+            <td>{{selectedProvinciaId}}</td>
+          </tr>
+          <tr>
+            <td>Número de localidades asociadas</td>
+            <td>{{selectedProvinciaLocalidadesNumber}}</td>
+          </tr>
+          </tbody>
+        </table>
       </dx-popup>
 
     </div>
   </dxi-item>
 
+
+
   <dxi-item [baseSize]="50" ratio="1">
+
     <h3>LOCALIDADES</h3>
+
     <dx-data-grid
       [dataSource]="dataLocalidades$ | async"
-      [columns]="['id', 'nombre']">
+      [columns]="['id', 'nombre']"
+      (onRowDblClick)="onLocalidadRowDblClick($event)">
+      <dxo-selection mode="single"></dxo-selection>
     </dx-data-grid>
+    <dx-popup
+      [visible]="localidadPopupVisible"
+      title="Información de la provincia"
+      [height]="285"
+      [width]="500"
+      (onHiding)="hidePopup()">
+
+      <table class="table table-striped table-bordered mt-3">
+        <tbody>
+        <tr>
+          <td>Nombre de la localidad</td>
+          <td>{{selectedLocalidadName}}</td>
+        </tr>
+        <tr>
+          <td>Id de la localidad</td>
+          <td>{{selectedLocalidadId}}</td>
+        </tr>
+        <tr>
+          <td>Provincia a la que pertenece</td>
+          <td>{{selectedProvinciaName}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </dx-popup>
   </dxi-item>
 </dx-box>
 
