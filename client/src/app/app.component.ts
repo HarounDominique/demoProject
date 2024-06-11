@@ -71,7 +71,58 @@ export class AppComponent implements OnInit {
     this.localidadService.loadLocalidades().subscribe();
   }
 
-  onProvinciaClick(e: any): void {
+  onLocalidadRowDblClick(event: any) {
+    this.localidadPopupVisible = true;
+  }
+
+  hidePopup() {
+    this.provinciaPopupVisible = false;
+    this.localidadPopupVisible = false;
+  }
+
+  onProvinciaSelected(e: any): void {
+    //console.log('Selected Provincia ID:', e.value);
+    this.getLocalidadesData(e.value);
+  }
+
+  private getLocalidadesData(provinciaId: string) {
+    this.dataLocalidades$ = this.localidadService.getLocalidadesByProvincia(provinciaId);
+  }
+
+
+}
+
+/*
+ACCESO AL BACKEND A TRAVÉS DE 'data'; SUSTITUIDO POR AKITA:
+
+  private getDataProvincias() {
+    this.dataService.getProvinciasData().subscribe(
+      (response)=>{
+        this.dataProvincias=response;
+      },
+      (error)=>{
+        console.log("Error fetching data: ",error);
+      }
+    )
+  }
+
+  private getLocalidadesData() {
+    this.dataService.getLocalidadesData().subscribe(
+      (response)=>{
+        this.dataLocalidades=response;
+      },
+      (error)=>{
+        console.log("Error fetching data: ",error);
+      }
+    )
+  }
+}
+ */
+
+/*
+MÉTODOS PROPIOS DE LA VISTA DE PROVINCIAS, YA NO SE USAN:
+
+onProvinciaClick(e: any): void {
     const rowData = e.data;
     var varCount = 0;
     if (rowData) {
@@ -113,46 +164,4 @@ export class AppComponent implements OnInit {
     this.provinciaPopupVisible = true;
   }
 
-  onLocalidadRowDblClick(event: any) {
-    this.localidadPopupVisible = true;
-  }
-
-  hidePopup() {
-    this.provinciaPopupVisible = false;
-    this.localidadPopupVisible = false;
-  }
-
-  onProvinciaSelected(e: any): void {
-    //console.log('Selected Provincia ID:', e.value);
-    console.log(e);
-  }
-
-}
-
-/*
-ACCESO AL BACKEND A TRAVÉS DE 'data'; SUSTITUIDO POR AKITA:
-
-  private getDataProvincias() {
-    this.dataService.getProvinciasData().subscribe(
-      (response)=>{
-        this.dataProvincias=response;
-      },
-      (error)=>{
-        console.log("Error fetching data: ",error);
-      }
-    )
-  }
-
-  private getLocalidadesData() {
-    this.dataService.getLocalidadesData().subscribe(
-      (response)=>{
-        this.dataLocalidades=response;
-      },
-      (error)=>{
-        console.log("Error fetching data: ",error);
-      }
-    )
-  }
-}
  */
-
