@@ -17,10 +17,13 @@ h3{
   font-size: 1rem;
 }
 
-.rowDiv{
+.rowDiv {
   display: flex;
-  flex-direction: row;
+  justify-content: space-evenly; /* Distribuye el espacio uniformemente entre los elementos */
+  align-items: center; /* Centra los elementos verticalmente */
+  padding: 10px; /* Añade un padding si es necesario */
 }
+
 
 .confirmMessage {
   font-size: 1rem;

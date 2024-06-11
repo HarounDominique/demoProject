@@ -65,8 +65,8 @@
     <dx-popup
       [visible]="localidadPopupVisible"
       title="Información de {{selectedLocalidadName}}"
-      [height]="550"
-      [width]="400"
+      [height]="625"
+      [width]="420"
       (onHiding)="hidePopup()">
 
       <div class="rowDiv">
@@ -111,13 +111,27 @@
       [visible]="confirmingProvinciaChangePopupVisible"
       title="Confirmar cambios"
       [resizeEnabled]="true"
-      [height]="200"
+      [height]="275"
       [width]="550"
       (onHiding)="hidePopup()">
       <div>
         <p class="confirmMessage">
-          ¿Cambiar la localidad {{selectedLocalidadName}} de la provincia de {{selectedProvinciaName}} a la provincia de {{migrationTargetProvincia?.nombre}}?
+          ¿Cambiar la localidad {{ selectedLocalidadName }} de la provincia de {{ selectedProvinciaName }} a la
+          provincia de {{ migrationTargetProvincia?.nombre }}?
         </p>
+      </div>
+      <div class="rowDiv">
+        <dx-button
+          text="Cancelar"
+          (onClick)="hidePopup()"
+        >
+        </dx-button>
+
+        <dx-button
+          text="Confirmar"
+          (onClick)="hidePopup()"
+        >
+        </dx-button>
       </div>
     </dx-popup>
 
