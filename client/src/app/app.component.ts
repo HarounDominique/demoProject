@@ -54,6 +54,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+  }
+
+  loadData() {
+    this.provinciaService.loadProvincias().subscribe();
+    this.localidadService.loadLocalidades().subscribe();
     this.dataProvincias$ = this.provinciaQuery.selectAll();
     this.dataProvincias$.subscribe(
       provincias => {
@@ -66,27 +71,27 @@ export class AppComponent implements OnInit {
     this.dataLocalidades$ = of([]);
   }
 
-  loadData() {
-    this.provinciaService.loadProvincias().subscribe();
-    this.localidadService.loadLocalidades().subscribe();
-  }
-
   onLocalidadRowDblClick(event: any) {
     this.localidadPopupVisible = true;
+    this.selectedLocalidadId = event.data.id;
+    this.selectedLocalidadName = event.data.nombre;
   }
 
   hidePopup() {
-    this.provinciaPopupVisible = false;
     this.localidadPopupVisible = false;
   }
 
   onProvinciaSelected(e: any): void {
-    //console.log('Selected Provincia ID:', e.value);
-    this.getLocalidadesData(e.value);
+    this.getLocalidadesData(e.value); //devuelve el id de la provincia
   }
 
   private getLocalidadesData(provinciaId: string) {
     this.dataLocalidades$ = this.localidadService.getLocalidadesByProvincia(provinciaId);
+    this.provinciaService.selectProvinciaNameById(+provinciaId).subscribe(
+      name =>{
+        this.selectedProvinciaName = name;
+      }
+    );
   }
 
 

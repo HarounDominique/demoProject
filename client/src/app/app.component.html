@@ -1,4 +1,3 @@
-
 <dx-box direction="row" width="100%" height="100%">
   <!--dxi-item [baseSize]="50" ratio="1">
     <h3>PROVINCIAS</h3>
@@ -40,7 +39,7 @@
     </div>
   </dxi-item-->
 
-  <dxi-item [baseSize]="50" ratio="1">
+  <dxi-item ratio="1">
 
     <h3>Localidades según provincia</h3>
 
@@ -60,34 +59,52 @@
       [columns]="['id', 'nombre']"
       (onRowDblClick)="onLocalidadRowDblClick($event)">
       <dxo-selection mode="single"></dxo-selection>
+
     </dx-data-grid>
+
     <dx-popup
       [visible]="localidadPopupVisible"
-      title="Información de la provincia"
-      [height]="285"
-      [width]="500"
+      title="Información de {{selectedLocalidadName}}"
+      [height]="500"
+      [width]="350"
       (onHiding)="hidePopup()">
 
-      <table class="table table-striped table-bordered mt-3">
-        <tbody>
-        <tr>
-          <td>Nombre de la localidad</td>
-          <td>{{selectedLocalidadName}}</td>
-        </tr>
-        <tr>
-          <td>Id de la localidad</td>
-          <td>{{selectedLocalidadId}}</td>
-        </tr>
-        <tr>
-          <td>Provincia a la que pertenece</td>
-          <td>{{selectedProvinciaName}}</td>
-        </tr>
-        </tbody>
-      </table>
+      <dx-data-grid
+        id="gridContainer"
+        [dataSource]="dataLocalidades$ | async"
+        [showBorders]="true">
+
+        <dxo-editing
+          mode="cell"
+          [allowUpdating]="true"
+          [allowAdding]="true"
+          [allowDeleting]="true">
+
+        </dxo-editing>
+
+      </dx-data-grid>
+
     </dx-popup>
   </dxi-item>
 </dx-box>
 
 
-<!--(onRowDblClick)="onProvinciaClick($event)-->
+<!--<table class="table table-striped table-bordered mt-3">
+        <tbody>
+        <tr>
+          <td>Nombre de la localidad</td>
+          <td>{{ selectedLocalidadName }}</td>
+        </tr>
+        <tr>
+          <td>Id de la localidad</td>
+          <td>{{ selectedLocalidadId }}</td>
+        </tr>
+        <tr>
+          <td>Provincia a la que pertenece</td>
+          <td>{{ selectedProvinciaName }}</td>
+        </tr>
+        </tbody>
+      </table>-->
+
+
 
