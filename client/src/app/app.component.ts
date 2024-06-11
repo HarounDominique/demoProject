@@ -24,6 +24,8 @@ export class AppComponent implements OnInit {
 
   //VALORES QUE SE MOSTRARÁN EN LA PLANTILLA:
 
+  provincias: Array<Provincia> = [];
+
   selectedProvinciaId: number | null = null;
 
   selectedProvinciaName: string | null = null;
@@ -53,6 +55,14 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
     this.dataProvincias$ = this.provinciaQuery.selectAll();
+    this.dataProvincias$.subscribe(
+      provincias => {
+        this.provincias = provincias;
+      },
+      error => {
+        console.error('Error loading provincias:', error);
+      }
+    );
     this.dataLocalidades$ = of([]);
   }
 
@@ -110,6 +120,11 @@ export class AppComponent implements OnInit {
   hidePopup() {
     this.provinciaPopupVisible = false;
     this.localidadPopupVisible = false;
+  }
+
+  onProvinciaSelected(e: any): void {
+    //console.log('Selected Provincia ID:', e.value);
+    console.log(e);
   }
 
 }
