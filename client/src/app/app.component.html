@@ -65,9 +65,85 @@
     <dx-popup
       [visible]="localidadPopupVisible"
       title="Información de {{selectedLocalidadName}}"
-      [height]="500"
-      [width]="350"
+      [height]="550"
+      [width]="400"
       (onHiding)="hidePopup()">
+
+      <div class="rowDiv">
+
+        <h6>Provincia a la que pertenece:</h6>
+        <!--En las propiedades onOpened / onValueChanged hice una chapuza para almacenar la localidad seleccionada para poder migrarla a otra provincia-->
+        <dx-select-box
+          class="mySelectBox"
+          [width]="300"
+          [dataSource]="provincias"
+          placeholder="{{selectedProvinciaName}}"
+          valueExpr="id"
+          displayExpr="nombre"
+          [searchEnabled]="true"
+          (onOpened)="onSavingLocalidad($event)"
+          (onValueChanged)="onLocalidadProvinciaChanged($event)"
+        ></dx-select-box>
+
+      </div>
+
+      <dx-data-grid
+        id="gridContainer"
+        [columns]="['nombre']"
+        [dataSource]="dataLocalidades$ | async"
+        keyExpr="nombre"
+        [showBorders]="true"
+      >
+        <dxo-paging [enabled]="false"></dxo-paging>
+        <dxo-editing
+          mode="batch"
+          [allowUpdating]="true"
+          [allowAdding]="true"
+          [allowDeleting]="true"
+
+        >
+        </dxo-editing>
+      </dx-data-grid>
+
+    </dx-popup>
+
+    <dx-popup
+      [visible]="confirmingProvinciaChangePopupVisible"
+      title="Confirmar cambios"
+      [resizeEnabled]="true"
+      [height]="200"
+      [width]="550"
+      (onHiding)="hidePopup()">
+      <div>
+        <p class="confirmMessage">
+          ¿Cambiar la localidad {{selectedLocalidadName}} de la provincia de {{selectedProvinciaName}} a la provincia de {{migrationTargetProvincia?.nombre}}?
+        </p>
+      </div>
+    </dx-popup>
+
+  </dxi-item>
+</dx-box>
+
+
+<!--
+
+<table class="table table-striped table-bordered mt-3">
+        <tbody>
+        <tr>
+          <td>Nombre de la localidad</td>
+          <td>{{ selectedLocalidadName }}</td>
+        </tr>
+        <tr>
+          <td>Id de la localidad</td>
+          <td>{{ selectedLocalidadId }}</td>
+        </tr>
+        <tr>
+          <td>Provincia a la que pertenece</td>
+          <td>{{ selectedProvinciaName }}</td>
+        </tr>
+        </tbody>
+      </table>
+
 
       <dx-data-grid
         id="gridContainer"
@@ -84,27 +160,7 @@
 
       </dx-data-grid>
 
-    </dx-popup>
-  </dxi-item>
-</dx-box>
-
-
-<!--<table class="table table-striped table-bordered mt-3">
-        <tbody>
-        <tr>
-          <td>Nombre de la localidad</td>
-          <td>{{ selectedLocalidadName }}</td>
-        </tr>
-        <tr>
-          <td>Id de la localidad</td>
-          <td>{{ selectedLocalidadId }}</td>
-        </tr>
-        <tr>
-          <td>Provincia a la que pertenece</td>
-          <td>{{ selectedProvinciaName }}</td>
-        </tr>
-        </tbody>
-      </table>-->
+      -->
 
 
 

@@ -34,13 +34,21 @@ export class AppComponent implements OnInit {
 
   selectedLocalidadName: string | null = null;
 
-  selectedLocalidadId: string | null = null;
+  selectedLocalidadId: number | null = null;
+
+  //VARIABLES TEMPORALES (INTERMEDIAS):
+
+  migratingLocalidad: Localidad | null = null;
+
+  migrationTargetProvincia: Provincia | null = null;
 
   //VARIABLES RELATIVOS A LA LÓGICA:
 
   provinciaPopupVisible: boolean = false;
 
   localidadPopupVisible:boolean = false;
+
+  confirmingProvinciaChangePopupVisible: boolean = false;
 
   title = 'client';
 
@@ -79,10 +87,31 @@ export class AppComponent implements OnInit {
 
   hidePopup() {
     this.localidadPopupVisible = false;
+    this.confirmingProvinciaChangePopupVisible = false;
   }
 
   onProvinciaSelected(e: any): void {
     this.getLocalidadesData(e.value); //devuelve el id de la provincia
+    this.selectedProvinciaId = e.value;
+  }
+
+  onSavingLocalidad(e:any){
+    this.localidadService.getLocalidadByLocalidadId(this.selectedLocalidadId).subscribe(
+      localidad => {this.migratingLocalidad = localidad}
+    );
+  }
+
+  onLocalidadProvinciaChanged(e: any) {
+    this.provinciaService.getProvinciaById(e.value).subscribe(
+      provincia => {this.migrationTargetProvincia = provincia}
+    );
+    console.log(this.migratingLocalidad);
+    console.log(this.selectedProvinciaId);
+    //EL TIMEOUT DA MARGEN PARA QUE LA VARAIBLE SE ACUMULE EL VALOR, PERO NO ES UNA SOLUCIÓN ÓPTIMA
+    setTimeout(() => {
+      console.log(this.migrationTargetProvincia);
+      this.confirmingProvinciaChangePopupVisible = true;
+    }, 100);
   }
 
   private getLocalidadesData(provinciaId: string) {

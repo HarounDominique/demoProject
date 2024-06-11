@@ -22,6 +22,10 @@ export class ProvinciaService{
     );
   }
 
+  getProvinciaById(provinciaId: number | null): Observable<Provincia> {
+    return this.http.get<Provincia>(`http://localhost:8080/provincias/${provinciaId}`);
+  }
+
   selectProvinciaNameById(provinciaId: number | null): Observable<string> {
     return this.http.get<Provincia>('http://localhost:8080/provincias/' + provinciaId).pipe(
       map(provincia => provincia.nombre)

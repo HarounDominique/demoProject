@@ -36,4 +36,11 @@ export class LocalidadService{
       })
     );
   }
+
+  getLocalidadByLocalidadId(localidadId: number | null) {
+    return this.http.get<Localidad>(`${this.apiUrl}/localidades/${localidadId}`)
+  }
+
+
+  //changeProvinciaOfLocalidad()
 }

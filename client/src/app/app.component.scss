@@ -16,3 +16,14 @@ h3{
   margin-bottom: 1rem;
   font-size: 1rem;
 }
+
+.rowDiv{
+  display: flex;
+  flex-direction: row;
+}
+
+.confirmMessage {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 2;
+}
