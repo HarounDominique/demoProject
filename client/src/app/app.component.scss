@@ -19,9 +19,9 @@ h3{
 
 .rowDiv {
   display: flex;
-  justify-content: space-evenly; /* Distribuye el espacio uniformemente entre los elementos */
-  align-items: center; /* Centra los elementos verticalmente */
-  padding: 10px; /* Añade un padding si es necesario */
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 10px;
 }
 
 
@@ -29,4 +29,11 @@ h3{
   font-size: 1rem;
   font-weight: 300;
   line-height: 2;
+}
+
+.popUpInfo{
+  margin-right: 1rem;
+  font-size: 1rem;
+  font-weight: 350;
+  line-height: 1.5;
 }

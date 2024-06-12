@@ -65,13 +65,13 @@
     <dx-popup
       [visible]="localidadPopupVisible"
       title="Información de {{selectedLocalidadName}}"
-      [height]="625"
+      [height]="320"
       [width]="420"
       (onHiding)="hidePopup()">
 
       <div class="rowDiv">
 
-        <h6>Provincia a la que pertenece:</h6>
+        <p class="popUpInfo">Provincia a la que pertenece:</p>
         <!--En las propiedades onOpened / onValueChanged hice una chapuza para almacenar la localidad seleccionada para poder migrarla a otra provincia-->
         <dx-select-box
           class="mySelectBox"
@@ -91,7 +91,6 @@
         id="gridContainer"
         [columns]="['id','nombre']"
         [dataSource]="selectedLocalidad$ | async"
-
         [showBorders]="true"
         (onRowUpdating)="onInfoPopupRowUpdating($event)"
       >

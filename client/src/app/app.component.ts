@@ -83,11 +83,6 @@ export class AppComponent implements OnInit {
     this.selectedLocalidadId = event.data.id;
     this.selectedLocalidadName = event.data.nombre;
     this.selectedLocalidad$ = this.localidadService.getLocalidadByLocalidadIdInArrayFormat(event.data.id);
-    this.selectedLocalidad$.subscribe(
-      response =>{
-        console.log(response);
-      }
-    );
   }
 
   hidePopup() {
