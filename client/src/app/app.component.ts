@@ -139,6 +139,7 @@ export class AppComponent implements OnInit {
 
   onInfoPopupRowUpdating(e: any) {
     //TODO: GESTIONAR LA EDICIÓN Y ACTUALIZACIÓN DE LAS FILAS DE LA TABLA DEL POPUP DE INFORMACIÓN DE LOCALIDAD SELECCIONADA
+    console.log(e.key);
   }
 }
 

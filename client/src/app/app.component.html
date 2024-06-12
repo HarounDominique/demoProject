@@ -89,23 +89,23 @@
       <!--[dataSource]="dataLocalidades$ NO TIENE SENTIDO AQUÍ, DEBERÍA MOSTRAR LA INFORMACIÓN DE LA LOCALIDAD, NO DE TODAS LAS LOCALIDADES DE LA PROVINCIA SELECCIONADA-->
       <dx-data-grid
         id="gridContainer"
-        [columns]="['id','nombre']"
+        [columns]="['nombre']"
         [dataSource]="selectedLocalidad$ | async"
         [showBorders]="true"
-        (onRowUpdating)="onInfoPopupRowUpdating($event)"
-      >
+        (onRowUpdating)="onInfoPopupRowUpdating($event)">
         <dxo-paging [enabled]="false"></dxo-paging>
         <dxo-editing
           mode="batch"
           [allowUpdating]="true"
           [allowAdding]="true"
-          [allowDeleting]="true"
-
-        >
+          [allowDeleting]="true">
         </dxo-editing>
-        <!--dxi-column dataField="id">
 
-        </dxi-column-->
+        <dxi-column dataField="id" [allowEditing]="false">
+        </dxi-column>
+
+        <dxi-column dataField="nombre" [allowEditing]="true">
+        </dxi-column>
       </dx-data-grid>
 
     </dx-popup>
