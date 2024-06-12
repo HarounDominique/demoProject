@@ -92,7 +92,8 @@
         [columns]="['nombre']"
         [dataSource]="selectedLocalidad$ | async"
         [showBorders]="true"
-        (onRowUpdating)="onInfoPopupRowUpdating($event)">
+        (onRowUpdating)="onInfoPopupRowUpdating($event)"
+        (onRowRemoving)="onInfoPopupRowRemoving($event)">
         <dxo-paging [enabled]="false"></dxo-paging>
         <dxo-editing
           mode="batch"

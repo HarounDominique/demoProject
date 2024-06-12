@@ -51,4 +51,8 @@ export class LocalidadService{
     return this.http.get<Localidad[]>(`${this.apiUrl}/localidades/${localidadId}/array`)
   }
 
+  deleteLocalidadByLocalidadId(localidadId: number | null) {
+    return this.http.delete<Localidad>(`${this.apiUrl}/localidades/${localidadId}`)
+  }
+
 }

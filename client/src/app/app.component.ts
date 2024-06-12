@@ -1,11 +1,11 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import { ProvinciaService } from './state/provincia/provincia.service';
-import { ProvinciaQuery } from './state/provincia/provincia.query';
-import { LocalidadService } from './state/localidad/localidad.service';
-import { LocalidadQuery } from './state/localidad/localidad.query';
+import {ProvinciaService} from './state/provincia';
+import {ProvinciaQuery} from './state/provincia';
+import {LocalidadService} from './state/localidad';
+import {LocalidadQuery} from './state/localidad';
 import {catchError, map, Observable, of, pipe} from 'rxjs';
-import { Provincia } from './state/provincia/provincia.model';
-import { Localidad } from './state/localidad/localidad.model';
+import {Provincia} from './state/provincia';
+import {Localidad} from './state/localidad';
 import DevExpress from "devextreme";
 import RowUpdatingEvent = DevExpress.ui.dxDataGrid.RowUpdatingEvent;
 
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
 
   //VARIABLES RELATIVOS A LA LÓGICA:
 
-  localidadPopupVisible:boolean = false;
+  localidadPopupVisible: boolean = false;
 
   confirmingProvinciaChangePopupVisible: boolean = false;
 
@@ -55,9 +55,9 @@ export class AppComponent implements OnInit {
     private provinciaService: ProvinciaService,
     private provinciaQuery: ProvinciaQuery,
     private localidadService: LocalidadService,
-    private localidadQuery: LocalidadQuery,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadData();
@@ -88,7 +88,7 @@ export class AppComponent implements OnInit {
   hidePopup() {
     this.localidadPopupVisible = false;
     this.confirmingProvinciaChangePopupVisible = false;
-
+    this.getLocalidadesData(String(this.selectedProvinciaId));
   }
 
   onProvinciaSelected(e: any): void {
@@ -96,25 +96,27 @@ export class AppComponent implements OnInit {
     this.selectedProvinciaId = e.value;
   }
 
-  onSavingLocalidad(e:any){
+  onSavingLocalidad(e: any) {
     this.localidadService.getLocalidadByLocalidadId(this.selectedLocalidadId).subscribe(
-      localidad => {this.migratingLocalidad = localidad}
+      localidad => {
+        this.migratingLocalidad = localidad
+      }
     );
   }
 
   onLocalidadProvinciaChanged(e: any) {
     this.provinciaService.getProvinciaById(e.value).subscribe(
-      provincia => {this.migrationTargetProvincia = provincia}
+      provincia => {
+        this.migrationTargetProvincia = provincia
+      }
     );
     //EL TIMEOUT DA MARGEN PARA QUE LA VARAIBLE SE ACUMULE EL VALOR, PERO NO ES UNA BUENA SOLUCIÓN
     setTimeout(() => {
-      //console.log(this.migrationTargetProvincia);
       this.confirmingProvinciaChangePopupVisible = true;
     }, 100);
   }
 
   onConfirmProvinciaChangeButton(e: any) {
-
     this.provinciaService.insertLocalidadInProvincia(this.migrationTargetProvincia?.id, this.migratingLocalidad).subscribe(
       (response) => {
         this.confirmingProvinciaChangePopupVisible = false;
@@ -129,23 +131,32 @@ export class AppComponent implements OnInit {
   private getLocalidadesData(provinciaId: string) {
     this.dataLocalidades$ = this.localidadService.getLocalidadesByProvincia(provinciaId);
     this.provinciaService.selectProvinciaNameById(+provinciaId).subscribe(
-      name =>{
+      name => {
         this.selectedProvinciaName = name;
       }
     );
   }
 
   onInfoPopupRowUpdating(e: any) {
-    console.log('Enviando solicitud para actualizar nombre de localidad:', e.key.id, e.newData.nombre);
-
     this.localidadService.updateLocalidadName(e.key.id, e.newData.nombre).subscribe(
       response => {
-        console.log('Respuesta del servidor:', response);
         this.loadData();
         this.cdr.detectChanges();
       },
       (error) => {
         console.error('Error actualizando localidad:', error);
+      }
+    );
+  }
+
+  onInfoPopupRowRemoving(e: any) {
+    this.localidadService.deleteLocalidadByLocalidadId(e.key.id).subscribe(
+      response => {
+        this.loadData();
+        this.cdr.detectChanges();
+      },
+      (error)=>{
+        console.error('Error eliminar la localidad:', error);
       }
     );
   }
