@@ -160,6 +160,10 @@ export class AppComponent implements OnInit {
       }
     );
   }
+
+  onInfoPopupRowInserted(e: any) {
+    
+  }
 }
 
 /*
