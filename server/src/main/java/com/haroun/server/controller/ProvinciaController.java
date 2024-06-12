@@ -76,4 +76,15 @@ public class ProvinciaController {
             return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    //añadir localidad a provincia existente
+    @PostMapping("/{id}")
+    public Localidad addLocalidad(@PathVariable int id, @RequestBody Localidad localidad){
+        return localidadService.saveLocalidad(id, localidad);
+    }
+
+    @PatchMapping("/{id}/localidades")
+    public Provincia addLocalidadToProvincia(@PathVariable int id, @RequestBody Localidad localidad) {
+        return provinciasService.addLocalidadToProvincia(id, localidad);
+    }
 }

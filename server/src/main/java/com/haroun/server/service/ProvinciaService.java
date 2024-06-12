@@ -1,9 +1,11 @@
 package com.haroun.server.service;
 
+import com.haroun.server.model.Localidad;
 import com.haroun.server.model.Provincia;
 import com.haroun.server.repository.IProvinciaMyBatisRepository;
 import com.haroun.server.repository.IProvinciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,6 +58,20 @@ public class ProvinciaService {
         if(p != null) {
             p.setNombre(provincia.getNombre());
             p.setLocalidades(provincia.getLocalidades());
+            provinciaRepository.save(p);
+            return p;
+        }else{
+            return null;
+        }
+    }
+
+    @Transactional
+    public Provincia addLocalidadToProvincia(int id, Localidad localidad) {
+        Provincia p = provinciaRepository.findById(id).orElse(null);
+        if(p != null) {
+            List<Localidad> newLocalidadesList = p.getLocalidades();
+            newLocalidadesList.add(localidad);
+            p.setLocalidades(newLocalidadesList);
             provinciaRepository.save(p);
             return p;
         }else{

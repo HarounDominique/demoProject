@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { ProvinciaService } from './state/provincia/provincia.service';
 import { ProvinciaQuery } from './state/provincia/provincia.query';
 import { LocalidadService } from './state/localidad/localidad.service';
@@ -20,8 +20,6 @@ export class AppComponent implements OnInit {
 
   dataLocalidades$: Observable<Localidad[]> | undefined;
 
-  dataProvincia$: Observable<string> | undefined;
-
   //VALORES QUE SE MOSTRARÁN EN LA PLANTILLA:
 
   provincias: Array<Provincia> = [];
@@ -29,8 +27,6 @@ export class AppComponent implements OnInit {
   selectedProvinciaId: number | null = null;
 
   selectedProvinciaName: string | null = null;
-
-  selectedProvinciaLocalidadesNumber: number | null = null;
 
   selectedLocalidadName: string | null = null;
 
@@ -44,8 +40,6 @@ export class AppComponent implements OnInit {
 
   //VARIABLES RELATIVOS A LA LÓGICA:
 
-  provinciaPopupVisible: boolean = false;
-
   localidadPopupVisible:boolean = false;
 
   confirmingProvinciaChangePopupVisible: boolean = false;
@@ -57,7 +51,8 @@ export class AppComponent implements OnInit {
     private provinciaService: ProvinciaService,
     private provinciaQuery: ProvinciaQuery,
     private localidadService: LocalidadService,
-    private localidadQuery: LocalidadQuery
+    private localidadQuery: LocalidadQuery,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -105,13 +100,38 @@ export class AppComponent implements OnInit {
     this.provinciaService.getProvinciaById(e.value).subscribe(
       provincia => {this.migrationTargetProvincia = provincia}
     );
-    console.log(this.migratingLocalidad);
-    console.log(this.selectedProvinciaId);
-    //EL TIMEOUT DA MARGEN PARA QUE LA VARAIBLE SE ACUMULE EL VALOR, PERO NO ES UNA SOLUCIÓN ÓPTIMA
+    //console.log(this.migratingLocalidad);
+    //console.log(this.selectedProvinciaId);
+    //EL TIMEOUT DA MARGEN PARA QUE LA VARAIBLE SE ACUMULE EL VALOR, PERO NO ES UNA BUENA SOLUCIÓN
     setTimeout(() => {
-      console.log(this.migrationTargetProvincia);
+      //console.log(this.migrationTargetProvincia);
       this.confirmingProvinciaChangePopupVisible = true;
     }, 100);
+  }
+
+  onConfirmProvinciaChangeButton(e: any) {
+    //1: HACER COPIA DE LOCALIDAD ORIGINAL
+
+    //2: GUARDAR PROVINCIA TARGET
+
+    //3: INSERTAR LOCALIDAD EN PROVINCIA TARGET
+
+    console.log(this.migrationTargetProvincia?.id);
+    console.log(this.migratingLocalidad);
+
+    this.provinciaService.insertLocalidadInProvincia(this.migrationTargetProvincia?.id, this.migratingLocalidad).subscribe(
+      (response) => {
+        console.log('Localidad añadida:', response);
+        this.confirmingProvinciaChangePopupVisible = false;
+        this.cdr.detectChanges();  // Marcar la vista como sucia y forzar una verificación de cambios
+      },
+      (error) => {
+        console.error('Error añadiendo localidad:', error);
+      }
+    );
+
+    //4: ELIMINAR LOCALIDAD ORIGINAL
+
   }
 
   private getLocalidadesData(provinciaId: string) {

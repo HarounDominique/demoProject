@@ -46,20 +46,23 @@ public class LocalidadService {
         return null;
     }
 
+    @Transactional
     public Localidad saveLocalidad(int id, Localidad localidad) {
         Provincia p = provinciaRepository.findById(id).orElse(null);
-        if(p != null) {
+        if (p != null) {
             localidad.setProvincia(p);
-            if(p.getLocalidades() == null) {
+            if (p.getLocalidades() == null) {
                 p.setLocalidades(new ArrayList<>());
             }
             p.getLocalidades().add(localidad);
+            provinciaRepository.save(p); // Asegúrate de guardar la provincia también si sus relaciones cambian
             return localidadRepository.save(localidad);
         } else {
             return null;
         }
     }
 
+    @Transactional
     public void deleteLocalidad(int id) {
         localidadRepository.deleteById(id);
     }
@@ -72,6 +75,7 @@ public class LocalidadService {
         }
     }
 
+    @Transactional
     public boolean updateLocalidad(int id, Localidad localidad) {
         Localidad l = localidadRepository.findById(id).orElse(null);
         if (l != null) {

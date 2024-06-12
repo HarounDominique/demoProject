@@ -39,10 +39,14 @@ public class LocalidadController {
         return localidadService.getProvinciaByLocalidadId(id);
     }
 
+/*
+    MÉTODO ORIGINAL, AUNQUE NO CREO QUE TENGA SENTIDO AÑADIR UNA LOCALIDAD SIN PROVINCIA ASIGNADA
     @PostMapping("/{id}")
     public Localidad createLocalidad(@PathVariable int id, @RequestBody Localidad localidad){
         return localidadService.saveLocalidad(id, localidad);
     }
+
+ */
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateLocalidad(@PathVariable int id, @RequestBody Localidad localidad){

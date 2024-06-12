@@ -4,6 +4,7 @@ import {ProvinciaStore} from "./provincia.store";
 import {map, Observable} from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {Provincia} from "./provincia.model";
+import {Localidad} from "../localidad/localidad.model";
 
 
 @Injectable({ providedIn: 'root' })
@@ -31,4 +32,9 @@ export class ProvinciaService{
       map(provincia => provincia.nombre)
     );
   }
+
+  insertLocalidadInProvincia(provinciaId: number | undefined, localidad: Localidad | null): Observable<Provincia> {
+    return this.http.post<Provincia>(`http://localhost:8080/provincias/${provinciaId}`, localidad)
+  }
+
 }
