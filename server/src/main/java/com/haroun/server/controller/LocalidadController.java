@@ -68,6 +68,20 @@ public class LocalidadController {
         }
     }
 
+    @PutMapping("/{id}/name")
+    public ResponseEntity<String> updateLocalidadName(@PathVariable int id, @RequestBody String localidadName){
+        try {
+            boolean isUpdated = localidadService.updateLocalidadName(id, localidadName);
+            if(isUpdated){
+                return new ResponseEntity<>("Nombre de localidad actualizado correctamente", HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>("Nombre de localidad no actualizado", HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public void deleteLocalidad(@PathVariable int id){
         localidadService.deleteLocalidad(id);

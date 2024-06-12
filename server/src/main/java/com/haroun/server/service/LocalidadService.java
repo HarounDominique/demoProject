@@ -94,6 +94,18 @@ public class LocalidadService {
         }
     }
 
+    @Transactional
+    public boolean updateLocalidadName(int id, String localidadName) {
+        Localidad l = localidadRepository.findById(id).orElse(null);
+        if (l != null) {
+            l.setNombre(localidadName.trim().replaceAll("\"", ""));
+            localidadRepository.save(l);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public List<Localidad> getLocalidadesByProvinciaId(int id) {
         Provincia p = provinciaRepository.findById(id).orElse(null);
         if(p != null) {

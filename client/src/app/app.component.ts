@@ -88,10 +88,11 @@ export class AppComponent implements OnInit {
   hidePopup() {
     this.localidadPopupVisible = false;
     this.confirmingProvinciaChangePopupVisible = false;
+
   }
 
   onProvinciaSelected(e: any): void {
-    this.getLocalidadesData(e.value); //devuelve el id de la provincia
+    this.getLocalidadesData(e.value);
     this.selectedProvinciaId = e.value;
   }
 
@@ -105,8 +106,6 @@ export class AppComponent implements OnInit {
     this.provinciaService.getProvinciaById(e.value).subscribe(
       provincia => {this.migrationTargetProvincia = provincia}
     );
-    //console.log(this.migratingLocalidad);
-    //console.log(this.selectedProvinciaId);
     //EL TIMEOUT DA MARGEN PARA QUE LA VARAIBLE SE ACUMULE EL VALOR, PERO NO ES UNA BUENA SOLUCIÓN
     setTimeout(() => {
       //console.log(this.migrationTargetProvincia);
@@ -136,10 +135,19 @@ export class AppComponent implements OnInit {
     );
   }
 
-
   onInfoPopupRowUpdating(e: any) {
-    //TODO: GESTIONAR LA EDICIÓN Y ACTUALIZACIÓN DE LAS FILAS DE LA TABLA DEL POPUP DE INFORMACIÓN DE LOCALIDAD SELECCIONADA
-    console.log(e.key);
+    console.log('Enviando solicitud para actualizar nombre de localidad:', e.key.id, e.newData.nombre);
+
+    this.localidadService.updateLocalidadName(e.key.id, e.newData.nombre).subscribe(
+      response => {
+        console.log('Respuesta del servidor:', response);
+        this.loadData();
+        this.cdr.detectChanges();
+      },
+      (error) => {
+        console.error('Error actualizando localidad:', error);
+      }
+    );
   }
 }
 
