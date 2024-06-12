@@ -37,6 +37,12 @@ public class LocalidadService {
         return localidadRepository.findById(id).orElse(null);
     }
 
+    public List<Localidad> getLocalidadByIdInAraryFormat(int id) {
+        List<Localidad> localidadList = new ArrayList<>();
+        localidadList.add(localidadRepository.findById(id).orElse(null));
+        return localidadList;
+    }
+
     public Provincia getProvinciaByLocalidadId(int id) {
         Localidad l = localidadRepository.findById(id).orElse(null);
         if(l != null) {

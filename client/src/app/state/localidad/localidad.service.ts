@@ -41,6 +41,9 @@ export class LocalidadService{
     return this.http.get<Localidad>(`${this.apiUrl}/localidades/${localidadId}`)
   }
 
+  getLocalidadByLocalidadIdInArrayFormat(localidadId: number | null) {
+    return this.http.get<Localidad[]>(`${this.apiUrl}/localidades/${localidadId}/array`)
+  }
 
   //changeProvinciaOfLocalidad()
 }

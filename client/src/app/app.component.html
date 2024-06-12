@@ -86,13 +86,14 @@
         ></dx-select-box>
 
       </div>
-
+      <!--[dataSource]="dataLocalidades$ NO TIENE SENTIDO AQUÍ, DEBERÍA MOSTRAR LA INFORMACIÓN DE LA LOCALIDAD, NO DE TODAS LAS LOCALIDADES DE LA PROVINCIA SELECCIONADA-->
       <dx-data-grid
         id="gridContainer"
-        [columns]="['nombre']"
-        [dataSource]="dataLocalidades$ | async"
-        keyExpr="nombre"
+        [columns]="['id','nombre']"
+        [dataSource]="selectedLocalidad$ | async"
+
         [showBorders]="true"
+        (onRowUpdating)="onInfoPopupRowUpdating($event)"
       >
         <dxo-paging [enabled]="false"></dxo-paging>
         <dxo-editing
@@ -103,6 +104,9 @@
 
         >
         </dxo-editing>
+        <!--dxi-column dataField="id">
+
+        </dxi-column-->
       </dx-data-grid>
 
     </dx-popup>

@@ -34,10 +34,16 @@ public class LocalidadController {
         return localidadService.getLocalidadById(id);
     }
 
+    @GetMapping("/{id}/array")
+    public List<Localidad> getLocalidadByIdInArrayFormat(@PathVariable int id){
+        return localidadService.getLocalidadByIdInAraryFormat(id);
+    }
+
     @GetMapping("/{id}/provincia")
     public Provincia getProvincia(@PathVariable int id){
         return localidadService.getProvinciaByLocalidadId(id);
     }
+
 
 /*
     MÉTODO ORIGINAL, AUNQUE NO CREO QUE TENGA SENTIDO AÑADIR UNA LOCALIDAD SIN PROVINCIA ASIGNADA

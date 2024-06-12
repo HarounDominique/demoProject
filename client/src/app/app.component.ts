@@ -6,6 +6,8 @@ import { LocalidadQuery } from './state/localidad/localidad.query';
 import {catchError, map, Observable, of, pipe} from 'rxjs';
 import { Provincia } from './state/provincia/provincia.model';
 import { Localidad } from './state/localidad/localidad.model';
+import DevExpress from "devextreme";
+import RowUpdatingEvent = DevExpress.ui.dxDataGrid.RowUpdatingEvent;
 
 @Component({
   selector: 'app-root',
@@ -19,6 +21,8 @@ export class AppComponent implements OnInit {
   dataProvincias$: Observable<Provincia[]> | undefined;
 
   dataLocalidades$: Observable<Localidad[]> | undefined;
+
+  selectedLocalidad$: Observable<Localidad[]> | undefined;
 
   //VALORES QUE SE MOSTRARÁN EN LA PLANTILLA:
 
@@ -78,6 +82,12 @@ export class AppComponent implements OnInit {
     this.localidadPopupVisible = true;
     this.selectedLocalidadId = event.data.id;
     this.selectedLocalidadName = event.data.nombre;
+    this.selectedLocalidad$ = this.localidadService.getLocalidadByLocalidadIdInArrayFormat(event.data.id);
+    this.selectedLocalidad$.subscribe(
+      response =>{
+        console.log(response);
+      }
+    );
   }
 
   hidePopup() {
@@ -110,28 +120,16 @@ export class AppComponent implements OnInit {
   }
 
   onConfirmProvinciaChangeButton(e: any) {
-    //1: HACER COPIA DE LOCALIDAD ORIGINAL
-
-    //2: GUARDAR PROVINCIA TARGET
-
-    //3: INSERTAR LOCALIDAD EN PROVINCIA TARGET
-
-    console.log(this.migrationTargetProvincia?.id);
-    console.log(this.migratingLocalidad);
 
     this.provinciaService.insertLocalidadInProvincia(this.migrationTargetProvincia?.id, this.migratingLocalidad).subscribe(
       (response) => {
-        console.log('Localidad añadida:', response);
         this.confirmingProvinciaChangePopupVisible = false;
-        this.cdr.detectChanges();  // Marcar la vista como sucia y forzar una verificación de cambios
+        this.cdr.detectChanges();  // Marcar la vista como sucia y forzar una verificación de cambios -> SIN ESTO NO FUNCIONA (?)
       },
       (error) => {
         console.error('Error añadiendo localidad:', error);
       }
     );
-
-    //4: ELIMINAR LOCALIDAD ORIGINAL
-
   }
 
   private getLocalidadesData(provinciaId: string) {
@@ -144,6 +142,9 @@ export class AppComponent implements OnInit {
   }
 
 
+  onInfoPopupRowUpdating(e: any) {
+    //TODO: GESTIONAR LA EDICIÓN Y ACTUALIZACIÓN DE LAS FILAS DE LA TABLA DEL POPUP DE INFORMACIÓN DE LOCALIDAD SELECCIONADA
+  }
 }
 
 /*
