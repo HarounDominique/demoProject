@@ -48,5 +48,4 @@ export class LocalidadService{
   deleteLocalidadByLocalidadId(localidadId: number | null) {
     return this.http.delete<Localidad>(`${this.apiUrl}/localidades/${localidadId}`)
   }
-
 }

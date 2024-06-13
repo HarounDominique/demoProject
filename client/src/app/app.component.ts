@@ -178,30 +178,3 @@ export class AppComponent implements OnInit {
 
   protected readonly String = String;
 }
-
-/*
-ACCESO AL BACKEND A TRAVÉS DE 'data'; SUSTITUIDO POR AKITA:
-
-  private getDataProvincias() {
-    this.dataService.getProvinciasData().subscribe(
-      (response)=>{
-        this.dataProvincias=response;
-      },
-      (error)=>{
-        console.log("Error fetching data: ",error);
-      }
-    )
-  }
-
-  private getLocalidadesData() {
-    this.dataService.getLocalidadesData().subscribe(
-      (response)=>{
-        this.dataLocalidades=response;
-      },
-      (error)=>{
-        console.log("Error fetching data: ",error);
-      }
-    )
-  }
-}
- */
