@@ -37,3 +37,9 @@ h3{
   font-weight: 350;
   line-height: 1.5;
 }
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

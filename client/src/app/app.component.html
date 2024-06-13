@@ -15,29 +15,36 @@
       (onValueChanged)="onProvinciaSelected($event)"
     ></dx-select-box>
 
-    <dx-data-grid
-      [dataSource]="dataLocalidades$ | async"
-      [columns]="['id', 'nombre']"
-      (onRowDblClick)="onLocalidadRowDblClick($event)"
-      (onRowInserted)="onLocalidadRowInserted($event)"
-      (onSaved)="reloadDataWithDelay(String(this.selectedProvinciaId))">
+    <div class="centered-container">
 
-      <dxo-selection mode="single"></dxo-selection>
+      <dx-data-grid
+        [dataSource]="dataLocalidades$ | async"
+        [columns]="['id', 'nombre']"
+        (onRowDblClick)="onLocalidadRowDblClick($event)"
+        (onRowInserted)="onLocalidadRowInserted($event)"
+        (onSaved)="reloadDataWithDelay(String(this.selectedProvinciaId))"
+        [showBorders]="true"
+        noDataText="Ninguna provincia seleccionada"
+        [width]="600">
 
-      <dxo-editing
-        mode="batch"
-        [allowUpdating]="false"
-        [allowAdding]="true"
-        [allowDeleting]="false">
-      </dxo-editing>
+        <dxo-selection mode="single"></dxo-selection>
 
-      <dxi-column dataField="id" [allowEditing]="false">
-      </dxi-column>
+        <dxo-editing
+          mode="batch"
+          [allowUpdating]="false"
+          [allowAdding]="true"
+          [allowDeleting]="false">
+        </dxo-editing>
 
-      <dxi-column dataField="nombre" [allowEditing]="true">
-      </dxi-column>
+        <dxi-column dataField="id" [allowEditing]="false">
+        </dxi-column>
 
-    </dx-data-grid>
+        <dxi-column dataField="nombre" [allowEditing]="true">
+        </dxi-column>
+
+      </dx-data-grid>
+
+    </div>
 
     <dx-popup
       [visible]="localidadPopupVisible"
