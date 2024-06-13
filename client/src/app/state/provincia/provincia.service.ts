@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ProvinciaStore} from "./provincia.store";
 import {map, Observable} from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -35,6 +35,11 @@ export class ProvinciaService{
 
   insertLocalidadInProvincia(provinciaId: number | undefined, localidad: Localidad | null): Observable<Provincia> {
     return this.http.post<Provincia>(`http://localhost:8080/provincias/${provinciaId}`, localidad)
+  }
+
+  insertLocalidadByNameInProvincia(provinciaId: number | null, localidadName: string | null): Observable<Provincia> {
+    //const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post<Provincia>(`http://localhost:8080/provincias/${provinciaId}/localidades`, localidadName);
   }
 
 }

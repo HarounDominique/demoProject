@@ -12,12 +12,6 @@ export class LocalidadService{
   private apiUrl = 'http://localhost:8080';
 
   constructor(private localidadStore: LocalidadStore, private http: HttpClient) {}
-/*
-  updateLocalidadName(newName:string){
-    this.localidadStore.update({name:newName});
-  }
-
- */
 
   updateLocalidadName(id:number, newName:string){
     return this.http.put(`${this.apiUrl}/localidades/${id}/name`, newName, { responseType: 'text' })

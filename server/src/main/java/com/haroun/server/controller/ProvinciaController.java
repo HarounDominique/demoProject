@@ -21,7 +21,6 @@ public class ProvinciaController {
     private LocalidadService localidadService;
 
 
-
     @GetMapping
     public List<Provincia> getAllProvincias() {
         return provinciasService.getAllProvincias();
@@ -36,15 +35,9 @@ public class ProvinciaController {
     public Provincia findProvinciaNameById(@PathVariable int id) {
         return provinciasService.findProvinciaNameById(id);
     }
-/* EL MÉTODO EN SÍ NO ESTÁ MAL, PERO NO LE VEO DEMASIADO SENTIDO AL HECHO DE QUE ME DEVUELVA LA PROVINCIA CUANDO LO RELEVANTE ES SÓLO EL ARRAY DE LOCALIDADES
-    @GetMapping("/{id}/localidades")
-    public Provincia getProvinciaById(@PathVariable int id) {
-        return provinciasService.getProvinciaById(id);
-    }
-*/
+
     @GetMapping("/{id}/localidades")
     public List<Localidad> getLocalidadesByProvinciaId(@PathVariable int id) {
-        //return provinciasService.getProvinciaById(id);
         return localidadService.getLocalidadesByProvinciaId(id);
     }
 
@@ -82,9 +75,24 @@ public class ProvinciaController {
     public Localidad addLocalidad(@PathVariable int id, @RequestBody Localidad localidad){
         return localidadService.saveLocalidad(id, localidad);
     }
-
-    @PatchMapping("/{id}/localidades")
-    public Provincia addLocalidadToProvincia(@PathVariable int id, @RequestBody Localidad localidad) {
-        return provinciasService.addLocalidadToProvincia(id, localidad);
+/*
+    @PostMapping("/{id}/localidades")
+    public Provincia addLocalidadToProvincia(@PathVariable int id, @RequestBody String localidadName) {
+        return provinciasService.addLocalidadToProvincia(id, localidadName);
     }
+
+ */
+
+
+    @PostMapping("/{id}/localidades")
+    public ResponseEntity<?> addLocalidadToProvincia(@PathVariable int id, @RequestBody String localidadName) {
+        try {
+            Provincia p = provinciasService.addLocalidadToProvincia(id, localidadName);
+            return ResponseEntity.ok(p);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

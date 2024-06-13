@@ -2,12 +2,9 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ProvinciaService} from './state/provincia';
 import {ProvinciaQuery} from './state/provincia';
 import {LocalidadService} from './state/localidad';
-import {LocalidadQuery} from './state/localidad';
-import {catchError, map, Observable, of, pipe} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Provincia} from './state/provincia';
 import {Localidad} from './state/localidad';
-import DevExpress from "devextreme";
-import RowUpdatingEvent = DevExpress.ui.dxDataGrid.RowUpdatingEvent;
 
 @Component({
   selector: 'app-root',
@@ -161,9 +158,18 @@ export class AppComponent implements OnInit {
     );
   }
 
-  onInfoPopupRowInserted(e: any) {
-    
+  onLocalidadRowInserted(e: any) {
+    this.provinciaService.insertLocalidadByNameInProvincia(this.selectedProvinciaId, e.key.nombre).subscribe(
+      response => {
+        this.loadData();
+        this.cdr.detectChanges();
+      },
+      error => {
+        console.error('Error añadiendo nueva localidad:', error);
+      }
+    );
   }
+
 }
 
 /*
@@ -191,51 +197,4 @@ ACCESO AL BACKEND A TRAVÉS DE 'data'; SUSTITUIDO POR AKITA:
     )
   }
 }
- */
-
-/*
-MÉTODOS PROPIOS DE LA VISTA DE PROVINCIAS, YA NO SE USAN:
-
-onProvinciaClick(e: any): void {
-    const rowData = e.data;
-    var varCount = 0;
-    if (rowData) {
-      const provinciaId = rowData.id;
-      this.selectedProvinciaId = provinciaId;
-      this.dataLocalidades$ = this.localidadService.getLocalidadesByProvincia(provinciaId).pipe(
-        map(localidades => {
-          localidades.forEach(localidad => {
-            varCount++;
-          });
-          this.selectedProvinciaLocalidadesNumber = varCount;
-          return localidades;
-        }),
-        catchError(error => {
-          console.error('Error loading localidades:', error, ".");
-          return of([]);
-        })
-      );
-    } else {
-      console.error('Invalid event object:', e, ".");
-    }
-
-    if(this.selectedProvinciaId !== null) {
-      this.dataProvincia$ = this.provinciaService.selectProvinciaNameById(this.selectedProvinciaId);
-      this.provinciaService.selectProvinciaNameById(this.selectedProvinciaId).subscribe(
-        name => {
-          this.selectedProvinciaName = name;
-        },
-        error => {
-          console.error("Error retrieving provincia name:", error);
-        }
-      );
-    } else {
-      console.error("The id of provincia is null.");
-    }
-  }
-
-  onProvinciaRowDblClick(event: any) {
-    this.provinciaPopupVisible = true;
-  }
-
  */

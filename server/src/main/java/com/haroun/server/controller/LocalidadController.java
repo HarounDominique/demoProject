@@ -2,9 +2,7 @@ package com.haroun.server.controller;
 
 import com.haroun.server.model.Localidad;
 import com.haroun.server.model.Provincia;
-import com.haroun.server.repository.IProvinciaRepository;
 import com.haroun.server.service.LocalidadService;
-import com.haroun.server.service.ProvinciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +16,6 @@ public class LocalidadController {
 
     @Autowired
     private LocalidadService localidadService;
-
-    @Autowired
-    private IProvinciaRepository provinciaRepository;
-    @Autowired
-    private ProvinciaService provinciaService;
 
     @GetMapping
     public List<Localidad> getAllLocalidades(){
@@ -43,16 +36,6 @@ public class LocalidadController {
     public Provincia getProvincia(@PathVariable int id){
         return localidadService.getProvinciaByLocalidadId(id);
     }
-
-
-/*
-    MÉTODO ORIGINAL, AUNQUE NO CREO QUE TENGA SENTIDO AÑADIR UNA LOCALIDAD SIN PROVINCIA ASIGNADA
-    @PostMapping("/{id}")
-    public Localidad createLocalidad(@PathVariable int id, @RequestBody Localidad localidad){
-        return localidadService.saveLocalidad(id, localidad);
-    }
-
- */
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateLocalidad(@PathVariable int id, @RequestBody Localidad localidad){
@@ -86,7 +69,5 @@ public class LocalidadController {
     public void deleteLocalidad(@PathVariable int id){
         localidadService.deleteLocalidad(id);
     }
-
-
 
 }

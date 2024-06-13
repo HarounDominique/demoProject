@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.haroun.server.repository.IProvinciaMyBatisRepository">
+<mapper namespace="com.haroun.server.repository.mybatis.IProvinciaMyBatisRepository">
 
     <resultMap id="ProvinciaResultMap" type="com.haroun.server.model.Provincia">
         <id property="id" column="id" />
@@ -9,40 +9,11 @@
     </resultMap>
 
     <select id="findAll" resultMap="ProvinciaResultMap">
-        SELECT * FROM "provincias"
+        SELECT nombre, id FROM "provincias"
     </select>
 
     <select id="findProvinciaNameById" resultMap="ProvinciaResultMap">
         SELECT nombre, id FROM "provincias" WHERE id = #{id}
     </select>
-
-    <!--select id="findById" resultMap="ProvinciaResultMap">
-        SELECT * FROM provincias WHERE id = #{id}
-    </select>
-
-    <insert id="save" parameterType="Provincia">
-        INSERT INTO provincias (nombre) VALUES (#{nombre})
-    </insert>
-
-    <insert id="insert" parameterType="Provincia">
-        INSERT INTO provincias (nombre) VALUES (#{nombre})
-        <selectKey keyProperty="id" resultType="int" order="AFTER">
-            SELECT LASTVAL()
-        </selectKey>
-    </insert>
-
-    <update id="update" parameterType="Provincia">
-        UPDATE provincias SET nombre = #{nombre} WHERE id = #{id}
-    </update>
-
-    <delete id="deleteById" parameterType="int">
-        DELETE FROM provincias WHERE id = #{id}
-    </delete>
-
-    <select id="selectLocalidadesByProvinciaId" resultMap="ProvinciaResultMap">
-        SELECT p.*, l.* FROM provincias p
-        JOIN localidades l ON p.id = l.provincia_id
-        WHERE p.id = #{id}
-    </select-->
 
 </mapper>

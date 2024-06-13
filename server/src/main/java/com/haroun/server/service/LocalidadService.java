@@ -2,9 +2,9 @@ package com.haroun.server.service;
 
 import com.haroun.server.model.Localidad;
 import com.haroun.server.model.Provincia;
-import com.haroun.server.repository.ILocalidadRepository;
-import com.haroun.server.repository.IProvinciaMyBatisRepository;
-import com.haroun.server.repository.IProvinciaRepository;
+import com.haroun.server.repository.hibernate.ILocalidadRepository;
+import com.haroun.server.repository.mybatis.IProvinciaMyBatisRepository;
+import com.haroun.server.repository.hibernate.IProvinciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,6 @@ public class LocalidadService {
 
     @Autowired
     private IProvinciaRepository provinciaRepository;
-
 
     //inyección de dependencias (MyBatis) manual haciendo una instancia del repositorio de Provincia y parándolo por parámetro al constructor de la clase actual (LocalidadService)
     private final IProvinciaMyBatisRepository provinciaMyBatisRepository;
@@ -52,17 +51,32 @@ public class LocalidadService {
         return null;
     }
 
+    public List<Localidad> getLocalidadesByProvinciaId(int id) {
+        Provincia p = provinciaRepository.findById(id).orElse(null);
+        if(p != null) {
+            List<Localidad> l;
+            l =  p.getLocalidades();
+            return l;
+        }else{
+            return null;
+        }
+    }
+
     @Transactional
     public Localidad saveLocalidad(int id, Localidad localidad) {
         Provincia p = provinciaRepository.findById(id).orElse(null);
         if (p != null) {
-            localidad.setProvincia(p);
-            if (p.getLocalidades() == null) {
-                p.setLocalidades(new ArrayList<>());
+            if(localidad.getNombre().isBlank() || localidad.getNombre().isEmpty()){
+                return null;
+            }else{
+                localidad.setProvincia(p);
+                if (p.getLocalidades() == null) {
+                    p.setLocalidades(new ArrayList<>());
+                }
+                p.getLocalidades().add(localidad);
+                provinciaRepository.save(p);
+                return localidadRepository.save(localidad);
             }
-            p.getLocalidades().add(localidad);
-            provinciaRepository.save(p); // Asegúrate de guardar la provincia también si sus relaciones cambian
-            return localidadRepository.save(localidad);
         } else {
             return null;
         }
@@ -98,22 +112,15 @@ public class LocalidadService {
     public boolean updateLocalidadName(int id, String localidadName) {
         Localidad l = localidadRepository.findById(id).orElse(null);
         if (l != null) {
-            l.setNombre(localidadName.trim().replaceAll("\"", ""));
-            localidadRepository.save(l);
-            return true;
+            if(localidadName.trim().replaceAll("\"", "").isBlank() || localidadName.trim().replaceAll("\"", "").isEmpty()){
+                return false;
+            }else{
+                l.setNombre(localidadName.trim().replaceAll("\"", ""));
+                localidadRepository.save(l);
+                return true;
+            }
         }else{
             return false;
-        }
-    }
-
-    public List<Localidad> getLocalidadesByProvinciaId(int id) {
-        Provincia p = provinciaRepository.findById(id).orElse(null);
-        if(p != null) {
-            List<Localidad> l;
-            l =  p.getLocalidades();
-            return l;
-        }else{
-            return null;
         }
     }
 }

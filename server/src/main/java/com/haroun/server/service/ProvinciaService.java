@@ -2,10 +2,10 @@ package com.haroun.server.service;
 
 import com.haroun.server.model.Localidad;
 import com.haroun.server.model.Provincia;
-import com.haroun.server.repository.IProvinciaMyBatisRepository;
-import com.haroun.server.repository.IProvinciaRepository;
+import com.haroun.server.repository.hibernate.ILocalidadRepository;
+import com.haroun.server.repository.mybatis.IProvinciaMyBatisRepository;
+import com.haroun.server.repository.hibernate.IProvinciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,17 +17,16 @@ public class ProvinciaService {
     @Autowired
     private IProvinciaRepository provinciaRepository;
 
+    @Autowired
+    private ILocalidadRepository localidadRepository;
+
     private final IProvinciaMyBatisRepository provinciaMyBatisRepository;
     @Autowired
     public ProvinciaService(IProvinciaMyBatisRepository provinciaMyBatisRepository) {
     this.provinciaMyBatisRepository = provinciaMyBatisRepository;
     }
 
-
-
-    public List<Provincia> getAllProvincias() {
-        return provinciaMyBatisRepository.findAll();
-    }
+    public List<Provincia> getAllProvincias() { return provinciaMyBatisRepository.findAll(); }
 
     public List<Provincia> getAllProvinciasWithLocalidades(){
         return provinciaRepository.findAll();
@@ -66,14 +65,20 @@ public class ProvinciaService {
     }
 
     @Transactional
-    public Provincia addLocalidadToProvincia(int id, Localidad localidad) {
+    public Provincia addLocalidadToProvincia(int id, String localidadName) {
         Provincia p = provinciaRepository.findById(id).orElse(null);
         if(p != null) {
-            List<Localidad> newLocalidadesList = p.getLocalidades();
-            newLocalidadesList.add(localidad);
-            p.setLocalidades(newLocalidadesList);
-            provinciaRepository.save(p);
-            return p;
+            if(localidadName.trim().replaceAll("\"", "").isBlank() || localidadName.trim().replaceAll("\"", "").isEmpty()){
+                return null;
+            }else{
+                List<Localidad> newLocalidadesList = p.getLocalidades();
+                Localidad localidad = new Localidad(localidadName.trim().replaceAll("\"", ""), p);
+                localidadRepository.save(localidad);
+                newLocalidadesList.add(localidad);
+                p.setLocalidades(newLocalidadesList);
+                provinciaRepository.save(p);
+                return p;
+            }
         }else{
             return null;
         }

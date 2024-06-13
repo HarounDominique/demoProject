@@ -24,8 +24,7 @@ public class Localidad {
     @JsonBackReference
     private Provincia provincia;
 
-    public Localidad(int id, String nombre, Provincia provincia) {
-        this.id = id;
+    public Localidad( String nombre, Provincia provincia) {
         this.nombre = nombre;
         this.provincia = provincia;
     }
