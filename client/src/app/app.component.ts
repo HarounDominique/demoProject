@@ -125,13 +125,19 @@ export class AppComponent implements OnInit {
     );
   }
 
-  private getLocalidadesData(provinciaId: string) {
+  getLocalidadesData(provinciaId: string) {
     this.dataLocalidades$ = this.localidadService.getLocalidadesByProvincia(provinciaId);
     this.provinciaService.selectProvinciaNameById(+provinciaId).subscribe(
       name => {
         this.selectedProvinciaName = name;
       }
     );
+  }
+
+  reloadDataWithDelay(provinciaId: string) {
+    setTimeout(() => {
+      this.getLocalidadesData(provinciaId);
+    }, 100);
   }
 
   onInfoPopupRowUpdating(e: any) {
@@ -170,6 +176,7 @@ export class AppComponent implements OnInit {
     );
   }
 
+  protected readonly String = String;
 }
 
 /*

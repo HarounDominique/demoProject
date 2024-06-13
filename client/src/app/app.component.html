@@ -19,7 +19,8 @@
       [dataSource]="dataLocalidades$ | async"
       [columns]="['id', 'nombre']"
       (onRowDblClick)="onLocalidadRowDblClick($event)"
-      (onRowInserted)="onLocalidadRowInserted($event)">
+      (onRowInserted)="onLocalidadRowInserted($event)"
+      (onSaved)="reloadDataWithDelay(String(this.selectedProvinciaId))">
 
       <dxo-selection mode="single"></dxo-selection>
 
@@ -69,7 +70,8 @@
         [dataSource]="selectedLocalidad$ | async"
         [showBorders]="true"
         (onRowUpdating)="onInfoPopupRowUpdating($event)"
-        (onRowRemoving)="onInfoPopupRowRemoving($event)">
+        (onRowRemoving)="onInfoPopupRowRemoving($event)"
+        (onSaved)="hidePopup()">
         <dxo-paging [enabled]="false"></dxo-paging>
         <dxo-editing
           mode="batch"
