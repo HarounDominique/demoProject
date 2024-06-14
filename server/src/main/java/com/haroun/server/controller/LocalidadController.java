@@ -22,22 +22,22 @@ public class LocalidadController {
         return localidadService.getAllLocalidades();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{localidadId}")
     public Localidad getLocalidadById(@PathVariable int localidadId){
         return localidadService.getLocalidadById(localidadId);
     }
 
-    @GetMapping("/{id}/array")
+    @GetMapping("/{localidadId}/array")
     public List<Localidad> getLocalidadByIdInArrayFormat(@PathVariable int localidadId){
         return localidadService.getLocalidadByIdInAraryFormat(localidadId);
     }
 
-    @GetMapping("/{id}/provincia")
+    @GetMapping("/{localidadId}/provincia")
     public Provincia getProvinciaByLocalidadId(@PathVariable int localidadId){
         return localidadService.getProvinciaByLocalidadId(localidadId);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{localidadId}")
     public ResponseEntity<String> updateLocalidad(@PathVariable int localidadId, @RequestBody Localidad localidad){
         try {
             boolean isUpdated = localidadService.updateLocalidad(localidadId, localidad);
@@ -51,7 +51,7 @@ public class LocalidadController {
         }
     }
 
-    @PutMapping("/{id}/name")
+    @PutMapping("/{localidadId}/name")
     public ResponseEntity<String> updateLocalidadName(@PathVariable int localidadId, @RequestBody String localidadName){
         try {
             boolean isUpdated = localidadService.updateLocalidadName(localidadId, localidadName);
@@ -65,7 +65,7 @@ public class LocalidadController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{localidadId}")
     public void deleteLocalidad(@PathVariable int localidadId){
         localidadService.deleteLocalidad(localidadId);
     }

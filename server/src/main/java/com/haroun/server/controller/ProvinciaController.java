@@ -31,12 +31,12 @@ public class ProvinciaController {
         return provinciasService.getAllProvinciasWithLocalidades();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{provinciaId}")
     public Provincia findProvinciaNameById(@PathVariable int provinciaId) {
         return provinciasService.findProvinciaNameById(provinciaId);
     }
 
-    @GetMapping("/{id}/localidades")
+    @GetMapping("/{provinciaId}/localidades")
     public List<Localidad> getLocalidadesByProvinciaId(@PathVariable int provinciaId) {
         return localidadService.getLocalidadesByProvinciaId(provinciaId);
     }
@@ -46,17 +46,17 @@ public class ProvinciaController {
         return provinciasService.saveProvincia(provincia);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{provinciaId}")
     public void deleteProvincia(@PathVariable int provinciaId) {
         provinciasService.deleteProvincia(provinciaId);
     }
 
-    @DeleteMapping("/{id}/localidades")
+    @DeleteMapping("/{provinciaId}/localidades")
     public void deleteLocalidadesByProvincia(@PathVariable int provinciaId) {
         localidadService.deleteLocalidadesByProvincia(provinciaId);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{provinciaId}")
     public ResponseEntity<String> updateProvincia(@PathVariable int provinciaId, @RequestBody Provincia provincia) {
         try {
             Provincia updatedProvincia = provinciasService.updateProvincia(provinciaId, provincia);
@@ -70,13 +70,7 @@ public class ProvinciaController {
         }
     }
 
-    //añadir localidad a provincia existente
-    @PostMapping("/{id}")
-    public Localidad addLocalidad(@PathVariable int provinciaId, @RequestBody Localidad localidad){
-        return localidadService.saveLocalidad(provinciaId, localidad);
-    }
-
-    @PostMapping("/{id}/localidades")
+    @PostMapping("/{provinciaId}/localidades")
     public ResponseEntity<?> addLocalidadToProvincia(@PathVariable int provinciaId, @RequestBody String localidadName) {
         try {
             Provincia p = provinciasService.addLocalidadToProvincia(provinciaId, localidadName);
