@@ -75,14 +75,6 @@ public class ProvinciaController {
     public Localidad addLocalidad(@PathVariable int id, @RequestBody Localidad localidad){
         return localidadService.saveLocalidad(id, localidad);
     }
-/*
-    @PostMapping("/{id}/localidades")
-    public Provincia addLocalidadToProvincia(@PathVariable int id, @RequestBody String localidadName) {
-        return provinciasService.addLocalidadToProvincia(id, localidadName);
-    }
-
- */
-
 
     @PostMapping("/{id}/localidades")
     public ResponseEntity<?> addLocalidadToProvincia(@PathVariable int id, @RequestBody String localidadName) {

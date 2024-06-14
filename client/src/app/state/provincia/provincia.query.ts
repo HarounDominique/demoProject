@@ -8,5 +8,4 @@ export class ProvinciaQuery extends QueryEntity<ProvinciaState> {
     super(store);
   }
 
-
 }

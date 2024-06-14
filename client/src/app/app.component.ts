@@ -2,9 +2,11 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ProvinciaService} from './state/provincia';
 import {ProvinciaQuery} from './state/provincia';
 import {LocalidadService} from './state/localidad';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Provincia} from './state/provincia';
 import {Localidad} from './state/localidad';
+import {loadData} from "./methods/loadData";
+
 
 @Component({
   selector: 'app-root',
@@ -13,38 +15,27 @@ import {Localidad} from './state/localidad';
 })
 export class AppComponent implements OnInit {
 
+  protected readonly String = String;
+
   //OBSERVABLES:
-
   dataProvincias$: Observable<Provincia[]> | undefined;
-
   dataLocalidades$: Observable<Localidad[]> | undefined;
-
   selectedLocalidad$: Observable<Localidad[]> | undefined;
 
   //VALORES QUE SE MOSTRARÁN EN LA PLANTILLA:
-
   provincias: Array<Provincia> = [];
-
   selectedProvinciaId: number | null = null;
-
   selectedProvinciaName: string | null = null;
-
   selectedLocalidadName: string | null = null;
-
   selectedLocalidadId: number | null = null;
 
   //VARIABLES TEMPORALES (INTERMEDIAS):
-
   migratingLocalidad: Localidad | null = null;
-
   migrationTargetProvincia: Provincia | null = null;
 
   //VARIABLES RELATIVOS A LA LÓGICA:
-
   localidadPopupVisible: boolean = false;
-
   confirmingProvinciaChangePopupVisible: boolean = false;
-
   title = 'client';
 
 
@@ -57,35 +48,30 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData();
+    loadData(this.provinciaService,
+      this.localidadService,
+      this.dataProvincias$,
+      this.provincias,
+      this.provinciaQuery,
+      this.dataLocalidades$);
   }
 
-  loadData() {
-    this.provinciaService.loadProvincias().subscribe();
-    this.localidadService.loadLocalidades().subscribe();
-    this.dataProvincias$ = this.provinciaQuery.selectAll();
-    this.dataProvincias$.subscribe(
-      provincias => {
-        this.provincias = provincias;
-      },
-      error => {
-        console.error('Error loading provincias:', error);
+  getLocalidadesData(provinciaId: string) {
+    this.dataLocalidades$ = this.localidadService.getLocalidadesByProvincia(provinciaId);
+    this.provinciaService.selectProvinciaNameById(+provinciaId).subscribe(
+      name => {
+        this.selectedProvinciaName = name;
       }
     );
-    this.dataLocalidades$ = of([]);
   }
+
+  //métodos relativos a eventos de la plantilla
 
   onLocalidadRowDblClick(event: any) {
     this.localidadPopupVisible = true;
     this.selectedLocalidadId = event.data.id;
     this.selectedLocalidadName = event.data.nombre;
     this.selectedLocalidad$ = this.localidadService.getLocalidadByLocalidadIdInArrayFormat(event.data.id);
-  }
-
-  hidePopup() {
-    this.localidadPopupVisible = false;
-    this.confirmingProvinciaChangePopupVisible = false;
-    this.getLocalidadesData(String(this.selectedProvinciaId));
   }
 
   onProvinciaSelected(e: any): void {
@@ -125,25 +111,16 @@ export class AppComponent implements OnInit {
     );
   }
 
-  getLocalidadesData(provinciaId: string) {
-    this.dataLocalidades$ = this.localidadService.getLocalidadesByProvincia(provinciaId);
-    this.provinciaService.selectProvinciaNameById(+provinciaId).subscribe(
-      name => {
-        this.selectedProvinciaName = name;
-      }
-    );
-  }
-
-  reloadDataWithDelay(provinciaId: string) {
-    setTimeout(() => {
-      this.getLocalidadesData(provinciaId);
-    }, 100);
-  }
-
   onInfoPopupRowUpdating(e: any) {
     this.localidadService.updateLocalidadName(e.key.id, e.newData.nombre).subscribe(
       response => {
-        this.loadData();
+        loadData(this.provinciaService,
+          this.localidadService,
+          this.dataProvincias$,
+          this.provincias,
+          this.provinciaQuery,
+          this.dataLocalidades$);
+
         this.cdr.detectChanges();
       },
       (error) => {
@@ -155,7 +132,13 @@ export class AppComponent implements OnInit {
   onInfoPopupRowRemoving(e: any) {
     this.localidadService.deleteLocalidadByLocalidadId(e.key.id).subscribe(
       response => {
-        this.loadData();
+        loadData(this.provinciaService,
+          this.localidadService,
+          this.dataProvincias$,
+          this.provincias,
+          this.provinciaQuery,
+          this.dataLocalidades$);
+
         this.cdr.detectChanges();
       },
       (error)=>{
@@ -167,7 +150,13 @@ export class AppComponent implements OnInit {
   onLocalidadRowInserted(e: any) {
     this.provinciaService.insertLocalidadByNameInProvincia(this.selectedProvinciaId, e.key.nombre).subscribe(
       response => {
-        this.loadData();
+        loadData(this.provinciaService,
+          this.localidadService,
+          this.dataProvincias$,
+          this.provincias,
+          this.provinciaQuery,
+          this.dataLocalidades$);
+
         this.cdr.detectChanges();
       },
       error => {
@@ -176,5 +165,15 @@ export class AppComponent implements OnInit {
     );
   }
 
-  protected readonly String = String;
+  reloadDataWithDelay(provinciaId: string) {
+    setTimeout(() => {
+      this.getLocalidadesData(provinciaId);
+    }, 100);
+  }
+
+  hidePopup() {
+    this.localidadPopupVisible = false;
+    this.confirmingProvinciaChangePopupVisible = false;
+    this.getLocalidadesData(String(this.selectedProvinciaId));
+  }
 }

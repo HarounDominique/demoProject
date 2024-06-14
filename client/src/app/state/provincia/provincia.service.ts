@@ -9,11 +9,10 @@ import {Localidad} from "../localidad/localidad.model";
 
 @Injectable({ providedIn: 'root' })
 export class ProvinciaService{
-  constructor(private provinciaStore: ProvinciaStore, private http: HttpClient) { }
 
-  updateProvinciaName(newName:string){
-    this.provinciaStore.update({name:newName});
-  }
+  private apiUrl = 'http://localhost:8080';
+
+  constructor(private provinciaStore: ProvinciaStore, private http: HttpClient) { }
 
   loadProvincias(): Observable<Provincia[]> {
     return this.http.get<Provincia[]>('http://localhost:8080/provincias').pipe(
@@ -24,22 +23,22 @@ export class ProvinciaService{
   }
 
   getProvinciaById(provinciaId: number | null): Observable<Provincia> {
-    return this.http.get<Provincia>(`http://localhost:8080/provincias/${provinciaId}`);
+    return this.http.get<Provincia>(`${this.apiUrl}/provincias/${provinciaId}`);
   }
 
   selectProvinciaNameById(provinciaId: number | null): Observable<string> {
-    return this.http.get<Provincia>('http://localhost:8080/provincias/' + provinciaId).pipe(
+    return this.http.get<Provincia>(`${this.apiUrl}/provincias/` + provinciaId).pipe(
       map(provincia => provincia.nombre)
     );
   }
 
   insertLocalidadInProvincia(provinciaId: number | undefined, localidad: Localidad | null): Observable<Provincia> {
-    return this.http.post<Provincia>(`http://localhost:8080/provincias/${provinciaId}`, localidad)
+    return this.http.post<Provincia>(`${this.apiUrl}/provincias/${provinciaId}`, localidad)
   }
 
   insertLocalidadByNameInProvincia(provinciaId: number | null, localidadName: string | null): Observable<Provincia> {
     //const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post<Provincia>(`http://localhost:8080/provincias/${provinciaId}/localidades`, localidadName);
+    return this.http.post<Provincia>(`${this.apiUrl}/provincias/${provinciaId}/localidades`, localidadName);
   }
 
 }
