@@ -32,13 +32,13 @@ public class ProvinciaController {
     }
 
     @GetMapping("/{id}")
-    public Provincia findProvinciaNameById(@PathVariable int id) {
-        return provinciasService.findProvinciaNameById(id);
+    public Provincia findProvinciaNameById(@PathVariable int provinciaId) {
+        return provinciasService.findProvinciaNameById(provinciaId);
     }
 
     @GetMapping("/{id}/localidades")
-    public List<Localidad> getLocalidadesByProvinciaId(@PathVariable int id) {
-        return localidadService.getLocalidadesByProvinciaId(id);
+    public List<Localidad> getLocalidadesByProvinciaId(@PathVariable int provinciaId) {
+        return localidadService.getLocalidadesByProvinciaId(provinciaId);
     }
 
     @PostMapping
@@ -47,19 +47,19 @@ public class ProvinciaController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProvincia(@PathVariable int id) {
-        provinciasService.deleteProvincia(id);
+    public void deleteProvincia(@PathVariable int provinciaId) {
+        provinciasService.deleteProvincia(provinciaId);
     }
 
     @DeleteMapping("/{id}/localidades")
-    public void deleteLocalidadesByProvincia(@PathVariable int id) {
-        localidadService.deleteLocalidadesByProvincia(id);
+    public void deleteLocalidadesByProvincia(@PathVariable int provinciaId) {
+        localidadService.deleteLocalidadesByProvincia(provinciaId);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateProvincia(@PathVariable int id, @RequestBody Provincia provincia) {
+    public ResponseEntity<String> updateProvincia(@PathVariable int provinciaId, @RequestBody Provincia provincia) {
         try {
-            Provincia updatedProvincia = provinciasService.updateProvincia(id, provincia);
+            Provincia updatedProvincia = provinciasService.updateProvincia(provinciaId, provincia);
             if (updatedProvincia != null) {
                 return new ResponseEntity<>("Provincia actualizada correctamente", HttpStatus.OK);
             } else {
@@ -72,19 +72,18 @@ public class ProvinciaController {
 
     //añadir localidad a provincia existente
     @PostMapping("/{id}")
-    public Localidad addLocalidad(@PathVariable int id, @RequestBody Localidad localidad){
-        return localidadService.saveLocalidad(id, localidad);
+    public Localidad addLocalidad(@PathVariable int provinciaId, @RequestBody Localidad localidad){
+        return localidadService.saveLocalidad(provinciaId, localidad);
     }
 
     @PostMapping("/{id}/localidades")
-    public ResponseEntity<?> addLocalidadToProvincia(@PathVariable int id, @RequestBody String localidadName) {
+    public ResponseEntity<?> addLocalidadToProvincia(@PathVariable int provinciaId, @RequestBody String localidadName) {
         try {
-            Provincia p = provinciasService.addLocalidadToProvincia(id, localidadName);
+            Provincia p = provinciasService.addLocalidadToProvincia(provinciaId, localidadName);
             return ResponseEntity.ok(p);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 }

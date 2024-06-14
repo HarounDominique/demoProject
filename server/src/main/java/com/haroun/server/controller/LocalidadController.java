@@ -23,24 +23,24 @@ public class LocalidadController {
     }
 
     @GetMapping("/{id}")
-    public Localidad getLocalidadById(@PathVariable int id){
-        return localidadService.getLocalidadById(id);
+    public Localidad getLocalidadById(@PathVariable int localidadId){
+        return localidadService.getLocalidadById(localidadId);
     }
 
     @GetMapping("/{id}/array")
-    public List<Localidad> getLocalidadByIdInArrayFormat(@PathVariable int id){
-        return localidadService.getLocalidadByIdInAraryFormat(id);
+    public List<Localidad> getLocalidadByIdInArrayFormat(@PathVariable int localidadId){
+        return localidadService.getLocalidadByIdInAraryFormat(localidadId);
     }
 
     @GetMapping("/{id}/provincia")
-    public Provincia getProvincia(@PathVariable int id){
-        return localidadService.getProvinciaByLocalidadId(id);
+    public Provincia getProvinciaByLocalidadId(@PathVariable int localidadId){
+        return localidadService.getProvinciaByLocalidadId(localidadId);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateLocalidad(@PathVariable int id, @RequestBody Localidad localidad){
+    public ResponseEntity<String> updateLocalidad(@PathVariable int localidadId, @RequestBody Localidad localidad){
         try {
-            boolean isUpdated = localidadService.updateLocalidad(id, localidad);
+            boolean isUpdated = localidadService.updateLocalidad(localidadId, localidad);
             if(isUpdated){
                 return new ResponseEntity<>("Localidad actualizada correctamente", HttpStatus.OK);
             }else{
@@ -52,9 +52,9 @@ public class LocalidadController {
     }
 
     @PutMapping("/{id}/name")
-    public ResponseEntity<String> updateLocalidadName(@PathVariable int id, @RequestBody String localidadName){
+    public ResponseEntity<String> updateLocalidadName(@PathVariable int localidadId, @RequestBody String localidadName){
         try {
-            boolean isUpdated = localidadService.updateLocalidadName(id, localidadName);
+            boolean isUpdated = localidadService.updateLocalidadName(localidadId, localidadName);
             if(isUpdated){
                 return new ResponseEntity<>("Nombre de localidad actualizado correctamente", HttpStatus.OK);
             }else{
@@ -66,8 +66,8 @@ public class LocalidadController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteLocalidad(@PathVariable int id){
-        localidadService.deleteLocalidad(id);
+    public void deleteLocalidad(@PathVariable int localidadId){
+        localidadService.deleteLocalidad(localidadId);
     }
 
 }

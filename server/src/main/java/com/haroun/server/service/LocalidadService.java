@@ -32,18 +32,18 @@ public class LocalidadService {
         return localidadRepository.findAll();
     }
 
-    public Localidad getLocalidadById(int id) {
-        return localidadRepository.findById(id).orElse(null);
+    public Localidad getLocalidadById(int localidadId) {
+        return localidadRepository.findById(localidadId).orElse(null);
     }
 
-    public List<Localidad> getLocalidadByIdInAraryFormat(int id) {
+    public List<Localidad> getLocalidadByIdInAraryFormat(int localidadId) {
         List<Localidad> localidadList = new ArrayList<>();
-        localidadList.add(localidadRepository.findById(id).orElse(null));
+        localidadList.add(localidadRepository.findById(localidadId).orElse(null));
         return localidadList;
     }
 
-    public Provincia getProvinciaByLocalidadId(int id) {
-        Localidad l = localidadRepository.findById(id).orElse(null);
+    public Provincia getProvinciaByLocalidadId(int localidadId) {
+        Localidad l = localidadRepository.findById(localidadId).orElse(null);
         if(l != null) {
             Provincia p = provinciaMyBatisRepository.findProvinciaNameById(l.getProvincia().getId());
             return p;
@@ -51,8 +51,8 @@ public class LocalidadService {
         return null;
     }
 
-    public List<Localidad> getLocalidadesByProvinciaId(int id) {
-        Provincia p = provinciaRepository.findById(id).orElse(null);
+    public List<Localidad> getLocalidadesByProvinciaId(int provinciaId) {
+        Provincia p = provinciaRepository.findById(provinciaId).orElse(null);
         if(p != null) {
             List<Localidad> l;
             l =  p.getLocalidades();
@@ -63,8 +63,8 @@ public class LocalidadService {
     }
 
     @Transactional
-    public Localidad saveLocalidad(int id, Localidad localidad) {
-        Provincia p = provinciaRepository.findById(id).orElse(null);
+    public Localidad saveLocalidad(int provinciaId, Localidad localidad) {
+        Provincia p = provinciaRepository.findById(provinciaId).orElse(null);
         if (p != null) {
             if(localidad.getNombre().isBlank() || localidad.getNombre().isEmpty()){
                 return null;
@@ -83,8 +83,8 @@ public class LocalidadService {
     }
 
     @Transactional
-    public void deleteLocalidad(int id) {
-        localidadRepository.deleteById(id);
+    public void deleteLocalidad(int localidadId) {
+        localidadRepository.deleteById(localidadId);
     }
 
     @Transactional
@@ -96,8 +96,8 @@ public class LocalidadService {
     }
 
     @Transactional
-    public boolean updateLocalidad(int id, Localidad localidad) {
-        Localidad l = localidadRepository.findById(id).orElse(null);
+    public boolean updateLocalidad(int localidadId, Localidad localidad) {
+        Localidad l = localidadRepository.findById(localidadId).orElse(null);
         if (l != null) {
             l.setNombre(localidad.getNombre());
             l.setProvincia(localidad.getProvincia());
@@ -109,8 +109,8 @@ public class LocalidadService {
     }
 
     @Transactional
-    public boolean updateLocalidadName(int id, String localidadName) {
-        Localidad l = localidadRepository.findById(id).orElse(null);
+    public boolean updateLocalidadName(int localidadId, String localidadName) {
+        Localidad l = localidadRepository.findById(localidadId).orElse(null);
         if (l != null) {
             if(localidadName.trim().replaceAll("\"", "").isBlank() || localidadName.trim().replaceAll("\"", "").isEmpty()){
                 return false;

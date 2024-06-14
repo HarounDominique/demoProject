@@ -32,8 +32,8 @@ public class ProvinciaService {
         return provinciaRepository.findAll();
     }
 
-    public Provincia findProvinciaNameById(int id) {
-        return provinciaMyBatisRepository.findProvinciaNameById(id);
+    public Provincia findProvinciaNameById(int provinciaId) {
+        return provinciaMyBatisRepository.findProvinciaNameById(provinciaId);
     }
 
     public Provincia getProvinciaById(int id) {
@@ -47,13 +47,13 @@ public class ProvinciaService {
     }
 
     @Transactional
-    public void deleteProvincia(int id) {
-        provinciaRepository.deleteById(id);
+    public void deleteProvincia(int provinciaId) {
+        provinciaRepository.deleteById(provinciaId);
     }
 
     @Transactional
-    public Provincia updateProvincia(int id, Provincia provincia) {
-        Provincia p = provinciaRepository.findById(id).orElse(null);
+    public Provincia updateProvincia(int provinciaId, Provincia provincia) {
+        Provincia p = provinciaRepository.findById(provinciaId).orElse(null);
         if(p != null) {
             p.setNombre(provincia.getNombre());
             p.setLocalidades(provincia.getLocalidades());
